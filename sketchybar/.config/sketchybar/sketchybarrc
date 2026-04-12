@@ -1,0 +1,145 @@
+#!/usr/bin/env zsh
+
+FONT_FACE="JetBrainsMono Nerd Font"
+PLUGIN_DIR="$HOME/.config/sketchybar/plugins"
+
+# Detect if running on laptop (built-in display)
+MAIN_DISPLAY=$(system_profiler SPDisplaysDataType | grep -B 3 'Main Display:' | awk '/Display Type/ {print $3}')
+IS_LAPTOP=$([[ "$MAIN_DISPLAY" = "Built-in" ]] && echo 1 || echo 0)
+
+sketchybar --bar \
+    height=37 \
+    color=0xcc1e1e2e \
+    margin=8 \
+    y_offset=4 \
+    corner_radius=10 \
+    sticky=on \
+    padding_left=12 \
+    padding_right=12 \
+    notch_width=188 \
+    display=main
+
+sketchybar --default \
+    background.color=0x66313244 \
+    background.corner_radius=5 \
+    background.padding_right=5 \
+    background.height=26 \
+    icon.font="$FONT_FACE:SemiBold:15.0" \
+    icon.padding_left=5 \
+    icon.padding_right=5 \
+    label.font="$FONT_FACE:SemiBold:12.0" \
+    label.color=0xffcdd6f4 \
+    label.y_offset=0 \
+    label.padding_left=0 \
+    label.padding_right=5
+
+sketchybar --add item current_space left \
+    --set current_space \
+    background.color=0xfffab387 \
+    icon.color=0xff1e1e2e \
+    label.drawing=off \
+    script="$PLUGIN_DIR/current_space.sh" \
+    --subscribe current_space space_change mouse.clicked
+
+sketchybar --add item front_app left \
+    --set front_app \
+    background.color=0xffa6e3a1 \
+    background.padding_left=0 \
+    background.padding_right=0 \
+    icon.y_offset=1 \
+    icon.color=0xff1e1e2e \
+    label.drawing=no \
+    script="$PLUGIN_DIR/front_app.sh" \
+    --add item front_app.separator left \
+    --set front_app.separator \
+    background.color=0x00000000 \
+    background.padding_left=-3 \
+    icon= \
+    icon.color=0xffa6e3a1 \
+    icon.font="$FONT_FACE:Bold:20.0" \
+    icon.padding_left=0 \
+    icon.padding_right=0 \
+    icon.y_offset=1 \
+    label.drawing=no \
+    --add item front_app.name left \
+    --set front_app.name \
+    background.color=0x00000000 \
+    background.padding_right=0 \
+    icon.drawing=off \
+    label.font="$FONT_FACE:Bold:12.0" \
+    label.drawing=yes
+
+sketchybar --add bracket front_app_bracket \
+    front_app \
+    front_app.separator \
+    front_app.name \
+    --subscribe front_app front_app_switched
+
+sketchybar --add item claude_agents center \
+    --set claude_agents \
+    icon=󰚩 \
+    icon.font="$FONT_FACE:SemiBold:18.0" \
+    icon.color=0x66313244 \
+    icon.padding_right=2 \
+    label="zzz" \
+    label.color=0x66cdd6f4 \
+    background.color=0x00000000 \
+    background.padding_right=0 \
+    update_freq=5 \
+    script="$PLUGIN_DIR/claude_agents.sh"
+
+for i in $(seq 1 5); do
+    sketchybar --add item claude_agent_$i center \
+        --set claude_agent_$i \
+        icon=󰚩 \
+        icon.font="$FONT_FACE:SemiBold:18.0" \
+        icon.drawing=off \
+        icon.padding_left=4 \
+        icon.padding_right=2 \
+        label.drawing=off \
+        background.color=0x00000000 \
+        background.padding_left=0 \
+        background.padding_right=0
+done
+
+sketchybar --add item clock right \
+    --set clock \
+    icon=󰃰 \
+    icon.color=0xfff38ba8 \
+    update_freq=10 \
+    script="$PLUGIN_DIR/clock.sh"
+
+sketchybar --add item weather right \
+    --set weather \
+    icon.color=0xfff5c2e7 \
+    update_freq=1800 \
+    script="$PLUGIN_DIR/weather_minimal.sh" \
+    --subscribe weather system_woke
+
+sketchybar --add item volume right \
+    --set volume \
+    icon.color=0xff89b4fa \
+    label.drawing=true \
+    script="$PLUGIN_DIR/volume.sh" \
+    --subscribe volume volume_change
+
+sketchybar --add item pomodoro right \
+    --set pomodoro \
+    icon=󰔟 \
+    icon.color=0xffcdd6f4 \
+    label="off" \
+    update_freq=1 \
+    script="$PLUGIN_DIR/pomodoro.sh" \
+    --subscribe pomodoro mouse.clicked
+
+# Battery (laptop only)
+if [[ $IS_LAPTOP -eq 1 ]]; then
+    sketchybar --add item battery right \
+        --set battery \
+        update_freq=20 \
+        script="$PLUGIN_DIR/battery.sh"
+fi
+
+##### Finalizing Setup #####
+sketchybar --update
+sketchybar --trigger space_change
