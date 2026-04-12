@@ -1,0 +1,32 @@
+{
+  "permissions": {
+    "deny": [
+      ".env"
+    ]
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "bash /Users/luisfelipej/.claude/statusline-command.sh"
+  },
+  "enabledPlugins": {
+    "code-review@claude-plugins-official": true,
+    "code-simplifier@claude-plugins-official": true,
+    "engram@engram": true,
+    "feature-dev@claude-plugins-official": true,
+    "github@claude-plugins-official": true,
+    "gopls-lsp@claude-plugins-official": true,
+    "ralph-loop@claude-plugins-official": true,
+    "typescript-lsp@claude-plugins-official": true,
+    "superpowers@claude-plugins-official": true,
+    "spec-driven-dev@spec-driven-dev": true
+  },
+  "extraKnownMarketplaces": {
+    "spec-driven-dev": {
+      "source": {
+        "source": "github",
+        "repo": "Keiron-HealthTech/spec-driven-dev"
+      }
+    }
+  },
+  "skipDangerousModePermissionPrompt": true
+}

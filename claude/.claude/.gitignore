@@ -1,0 +1,47 @@
+# Secrets
+.credentials.json
+
+# History and sessions
+history.jsonl
+sessions/
+session-env/
+shell-snapshots/
+
+# Caches
+cache/
+file-history/
+paste-cache/
+image-cache/
+stats-cache.json
+mcp-needs-auth-cache.json
+
+# Runtime state
+debug/
+plans/
+todos/
+tasks/
+projects/
+channels/
+ide/
+
+# Telemetry
+telemetry/
+statsig/
+crashpad_database/
+crashpad_handler
+
+# Plugin system (managed externally)
+plugins/
+
+# Backups
+backups/
+skills_bak/
+CLAUDE.bak.md
+
+# Config overrides
+policy-limits.json
+remote-settings.json
+user-config.json
+
+# OS
+.DS_Store
