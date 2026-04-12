@@ -38,7 +38,7 @@ fi
 PACKAGES=(sketchybar nvim fish ghostty tmux claude)
 for pkg in "${PACKAGES[@]}"; do
     echo "Stowing $pkg..."
-    stow -R -t ~ "$pkg"
+    stow --adopt -R -t ~ "$pkg"
 done
 
 # 6. Install TPM if missing
