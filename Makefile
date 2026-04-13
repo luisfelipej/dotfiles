@@ -17,7 +17,7 @@ unstow:
 restow:
 	@for pkg in $(PACKAGES); do \
 		echo "Restowing $$pkg..."; \
-		stow -R -t ~ $$pkg; \
+		stow --adopt -R -t ~ $$pkg; \
 	done
 
 adopt:
