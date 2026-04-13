@@ -1,35 +1,19 @@
-# --- FUENTE Y LEGIBILIDAD ---
 font-family = MesloLGS Nerd Font Mono
-# Bajamos de 24 a 21. Es más pequeño, pero aún más grande que tus 18 originales.
-font-size = 21
-# Eliminamos el 'bold' para que la lectura sea más relajada y fluida.
-
-# Reducimos el espaciado para agrupar mejor el código, pero sin apretarlo
-adjust-cell-height = 15%
-
-# --- COLORES Y CONTRASTE ---
-# ¡Volvemos a tu tema! Frappe es excelente porque sus tonos pastel son suaves.
+font-size = 18
+background-opacity = 0.9
 theme = catppuccin-mocha
 
-# Un toque mínimo de transparencia, pero sin blur. 
-# El blur obliga al ojo a intentar enfocar el fondo inconscientemente.
-background-opacity = 0.95
-background-blur-radius = 0
+background-blur-radius = 20
 
-# --- CURSOR Y EFECTOS ---
-# Mantenemos el cursor estático y dejamos tu custom-shader desactivado por un par de semanas más.
-# Las animaciones constantes o el "smear" pueden generar fatiga visual rápida.
-cursor-style = block
-cursor-style-blink = false
-
-# --- VENTANA Y LIMPIEZA ---
 window-decoration = true
-window-padding-balance = true
-window-padding-x = 20
-window-padding-y = 20
+window-padding-color = extend
 window-step-resize = false
+window-padding-balance = true
+window-height = 100
+window-width = 100
+
 gtk-tabs-location = hidden
 
-# Tu shell
-command = /opt/homebrew/bin/fish
+custom-shader = shaders/cursor_smear_gentleman.glsl
 
+command = /opt/homebrew/bin/fish
