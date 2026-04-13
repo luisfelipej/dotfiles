@@ -1,0 +1,67 @@
+add_newline = true
+
+format = """
+$directory\
+$git_branch\
+$git_status\
+$kubernetes\
+$golang\
+$nodejs\
+$line_break\
+$character"""
+
+[directory]
+style = "bold cyan"
+
+[character]
+success_symbol = "[➜](bold green)"
+error_symbol = "[✗](bold red)"
+
+[golang]
+symbol = "🐹 "
+style = "bold blue"
+format = "[$symbol($version )]($style)"
+
+[nodejs]
+symbol = "⬢ "
+style = "bold green"
+format = "[$symbol($version )]($style)"
+
+[docker_context]
+symbol = "🐳 "
+style = "blue dimmed"
+
+[kubernetes]
+symbol = "☸ "
+disabled = false
+format = 'on [$symbol$context( \($namespace\))]($style) '
+
+[[kubernetes.contexts]]
+context_pattern = ".*ProdEKS.*"
+context_alias = "prod"
+style = "bold red" 
+
+[[kubernetes.contexts]]
+context_pattern = ".*DevEKS.*"
+context_alias = "dev"
+style = "bold green" 
+
+[git_branch]
+symbol = "🌱 "
+truncation_length = 20 
+truncation_symbol = "..."
+style = "bold purple"
+
+[git_status]
+style = "red"
+conflicted = "🏳"
+ahead = "🏎💨"
+behind = "😰"
+diverged = "😵"
+up_to_date = "✓"
+
+[aws]
+disabled = true
+
+[package]
+disabled = true

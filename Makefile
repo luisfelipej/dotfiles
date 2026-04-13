@@ -1,4 +1,4 @@
-PACKAGES = sketchybar nvim fish ghostty tmux claude
+PACKAGES = sketchybar nvim fish ghostty tmux claude git p10k starship mise
 
 .PHONY: stow unstow restow adopt status
 

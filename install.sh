@@ -35,7 +35,7 @@ if [ -f "$GHOSTTY_APP_SUPPORT/config" ] && [ ! -L "$HOME/.config/ghostty/config"
 fi
 
 # 5. Stow all packages (restow mode for idempotency)
-PACKAGES=(sketchybar nvim fish ghostty tmux claude)
+PACKAGES=(sketchybar nvim fish ghostty tmux claude git p10k starship mise)
 for pkg in "${PACKAGES[@]}"; do
     echo "Stowing $pkg..."
     stow --adopt -R -t ~ "$pkg"
