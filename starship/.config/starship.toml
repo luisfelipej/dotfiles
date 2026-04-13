@@ -7,6 +7,7 @@ $git_status\
 $kubernetes\
 $golang\
 $nodejs\
+$cmd_duration\
 $line_break\
 $character"""
 
@@ -59,6 +60,10 @@ ahead = "🏎💨"
 behind = "😰"
 diverged = "😵"
 up_to_date = "✓"
+
+[cmd_duration]
+min_time = 2_000
+format = "took [$duration](bold yellow) "
 
 [aws]
 disabled = true
