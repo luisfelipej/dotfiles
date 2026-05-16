@@ -5,11 +5,13 @@ POMODORO_FILE="/tmp/sketchybar_pomodoro"
 WORK_DURATION=1500   # 25 min
 BREAK_DURATION=300   # 5 min
 
-# Mocha colors
-COLOR_WORK="0x66a6e3a1"    # green, semi-transparent
-COLOR_BREAK="0xfffab387"   # peach
-COLOR_IDLE="0x66313244"    # surface1 dim
-COLOR_DONE="0xfff38ba8"    # red
+source "$HOME/.config/sketchybar/colors.sh"
+
+# Gruvbox Material colors
+COLOR_WORK=$GREEN
+COLOR_BREAK=$ORANGE
+COLOR_IDLE=$BG_OVERLAY
+COLOR_DONE=$RED
 
 get_state() {
     if [[ -f "$POMODORO_FILE" ]]; then
@@ -29,7 +31,7 @@ update_display() {
     get_state
 
     if [[ "$STATE" == "idle" ]]; then
-        sketchybar --set $NAME icon=󰔟 label="off" background.color=$COLOR_IDLE icon.color=0xffcdd6f4
+        sketchybar --set $NAME icon=󰔟 label="off" background.color=$COLOR_IDLE icon.color=$FG
         return
     fi
 
@@ -43,14 +45,14 @@ update_display() {
             STATE="running"
             END_TIME=$((NOW + BREAK_DURATION))
             save_state
-            sketchybar --set $NAME icon=󰾩 label="break!" background.color=$COLOR_DONE icon.color=0xff1e1e2e
+            sketchybar --set $NAME icon=󰾩 label="break!" background.color=$COLOR_DONE icon.color=$BAR_COLOR
             osascript -e 'display notification "Time for a break!" with title "Pomodoro"' &
         else
             # Break done
             STATE="idle"
             MODE="work"
             save_state
-            sketchybar --set $NAME icon=󰔟 label="off" background.color=$COLOR_IDLE icon.color=0xffcdd6f4
+            sketchybar --set $NAME icon=󰔟 label="off" background.color=$COLOR_IDLE icon.color=$FG
             osascript -e 'display notification "Break over. Ready for another?" with title "Pomodoro"' &
         fi
         return
@@ -61,9 +63,9 @@ update_display() {
     DISPLAY=$(printf "%02d:%02d" $MINS $SECS)
 
     if [[ "$MODE" == "work" ]]; then
-        sketchybar --set $NAME icon=󰔟 label="$DISPLAY" background.color=$COLOR_WORK icon.color=0xff1e1e2e
+        sketchybar --set $NAME icon=󰔟 label="$DISPLAY" background.color=$COLOR_WORK icon.color=$BAR_COLOR
     else
-        sketchybar --set $NAME icon=󰾩 label="$DISPLAY" background.color=$COLOR_BREAK icon.color=0xff1e1e2e
+        sketchybar --set $NAME icon=󰾩 label="$DISPLAY" background.color=$COLOR_BREAK icon.color=$BAR_COLOR
     fi
 }
 
