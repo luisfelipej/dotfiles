@@ -1,0 +1,14 @@
+#!/usr/bin/env zsh
+# JankyBorders — Gruvbox Material Dark accents
+# Docs: https://github.com/FelixKratz/JankyBorders
+
+options=(
+    style=square
+    width=3.0
+    hidpi=on
+    active_color=0xffe78a4e        # orange
+    inactive_color=0xff504945      # bg overlay (muted)
+    background_color=0x00000000
+)
+
+borders "${options[@]}"
