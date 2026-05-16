@@ -24,6 +24,8 @@ window-width = 100
 macos-titlebar-style = hidden
 macos-option-as-alt = true
 
+keybind = cmd+enter=toggle_fullscreen
+
 gtk-tabs-location = hidden
 
 custom-shader = shaders/cursor_smear_gentleman.glsl
