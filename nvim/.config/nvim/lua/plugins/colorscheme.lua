@@ -1,29 +1,22 @@
 return {
   {
-    "catppuccin/nvim",
+    "sainnhe/gruvbox-material",
     lazy = false,
-    name = "catppuccin",
-    opts = {
-      flavour = "mocha",
-      transparent_background = true,
-      integrations = {
-        mini = true,
-        native_lsp = {
-          enabled = true,
-          underlines = {
-            errors = { "undercurl" },
-            hints = { "undercurl" },
-            warnings = { "undercurl" },
-            information = { "undercurl" },
-          },
-        },
-      },
-    },
+    priority = 1000,
+    config = function()
+      vim.opt.background = "dark"
+      vim.opt.termguicolors = true
+      vim.g.gruvbox_material_background = "medium"
+      vim.g.gruvbox_material_foreground = "material"
+      vim.g.gruvbox_material_better_performance = 1
+      vim.g.gruvbox_material_enable_italic = 1
+      vim.cmd.colorscheme("gruvbox-material")
+    end,
   },
   {
     "LazyVim/LazyVim",
     opts = {
-      colorscheme = "catppuccin",
+      colorscheme = "gruvbox-material",
     },
   },
 }
