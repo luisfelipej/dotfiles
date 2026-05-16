@@ -44,6 +44,8 @@ sketchybar --default \
 
 ##### Left side #####
 
+sketchybar --add event aerospace_workspace_change
+
 # AeroSpace workspaces 1..9
 for sid in $(seq 1 9); do
     sketchybar --add item space.$sid left \
@@ -58,11 +60,9 @@ for sid in $(seq 1 9); do
         icon.padding_right=8 \
         label.drawing=off \
         click_script="aerospace workspace $sid" \
-        script="$PLUGIN_DIR/aerospace.sh $sid"
+        script="$PLUGIN_DIR/aerospace.sh $sid" \
+        --subscribe space.$sid aerospace_workspace_change
 done
-
-sketchybar --add event aerospace_workspace_change
-sketchybar --subscribe '/space\..*/' aerospace_workspace_change
 
 sketchybar --add item front_app left \
     --set front_app \

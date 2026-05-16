@@ -37,7 +37,7 @@ inner.horizontal = 6
 inner.vertical = 6
 outer.left = 6
 outer.right = 6
-outer.top = 38   # leave room for SketchyBar (32px + 2px border)
+outer.top = 48   # leave room for SketchyBar + macOS menu bar
 outer.bottom = 6
 
 # === Main mode ===
