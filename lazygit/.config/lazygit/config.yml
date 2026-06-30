@@ -1,0 +1,2 @@
+# Non-theme lazygit settings go here.
+# Theme is injected at runtime via LG_CONFIG_FILE; see theme/.local/bin/theme-set.
