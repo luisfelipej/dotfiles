@@ -46,6 +46,9 @@ outer.bottom = 6
 # Reload config
 alt-shift-c = 'reload-config'
 
+# Cycle theme (omarchy-style)
+alt-shift-t = 'exec-and-forget /Users/luisfelipej/.local/bin/theme-set --cycle'
+
 # Layout
 alt-slash = 'layout tiles horizontal vertical'
 alt-comma = 'layout accordion horizontal vertical'

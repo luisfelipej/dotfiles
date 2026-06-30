@@ -21,6 +21,18 @@ reload_apps() {
   fi
 }
 
+set_wallpaper() {
+  local manifest=$1 wp path
+  wp="$(manifest_get "$manifest" theme wallpaper)"
+  [ -n "$wp" ] || return 0
+  path="$DOTFILES/wallpapers/$wp"
+  if [ ! -f "$path" ]; then
+    echo "wallpaper not found: $path (skipping)" >&2
+    return 0
+  fi
+  osascript -e "tell application \"System Events\" to tell every desktop to set picture to \"$path\"" >/dev/null 2>&1 || true
+}
+
 apply_theme() {
   local name=$1
   local manifest="$THEMES_DIR/$name.toml"
@@ -39,13 +51,15 @@ apply_theme() {
     gen_starship "$HOME/.config/starship.toml" "$name" > "$STATE_DIR/starship.toml"
   fi
   echo "$name" > "$STATE_DIR/current"
+  set_wallpaper "$manifest"
   reload_apps
   echo "Applied theme: $name"
 }
 
 cycle_theme() {
   local cur; cur="$(current_theme)"
-  local -a themes; mapfile -t themes < <(list_themes)
+  local -a themes=()
+  while IFS= read -r t; do themes+=("$t"); done < <(list_themes)
   local next=0 idx
   for idx in "${!themes[@]}"; do
     [ "${themes[$idx]}" = "$cur" ] && next=$(( (idx + 1) % ${#themes[@]} ))
