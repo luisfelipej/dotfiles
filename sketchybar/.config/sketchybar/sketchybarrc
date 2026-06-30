@@ -4,7 +4,9 @@ ICON_FONT="JetBrainsMono Nerd Font"
 LABEL_FONT="IosevkaTerm Nerd Font Mono"
 PLUGIN_DIR="$HOME/.config/sketchybar/plugins"
 
-source "$HOME/.config/sketchybar/colors.sh"
+# Theme colors: prefer generated state fragment, fall back to committed default
+_theme_colors="${XDG_STATE_HOME:-$HOME/.local/state}/theme/sketchybar.sh"
+if [ -f "$_theme_colors" ]; then source "$_theme_colors"; else source "$HOME/.config/sketchybar/colors.sh"; fi
 
 # Detect if running on laptop (built-in display)
 MAIN_DISPLAY=$(system_profiler SPDisplaysDataType | grep -B 3 'Main Display:' | awk '/Display Type/ {print $3}')

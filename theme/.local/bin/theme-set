@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+DOTFILES="$HOME/.dotfiles"
+THEMES_DIR="$HOME/.config/theme/themes"
+LIB="$HOME/.config/theme/lib"
+STATE_DIR="${XDG_STATE_HOME:-$HOME/.local/state}/theme"
+DEFAULT_THEME="gruvbox-material"
+
+# shellcheck source=/dev/null
+source "$LIB/generate.sh"
+
+list_themes() { for f in "$THEMES_DIR"/*.toml; do basename "$f" .toml; done | sort; }
+current_theme() { cat "$STATE_DIR/current" 2>/dev/null || true; }
+
+reload_apps() {
+  command -v sketchybar >/dev/null 2>&1 && sketchybar --reload >/dev/null 2>&1 || true
+}
+
+apply_theme() {
+  local name=$1
+  local manifest="$THEMES_DIR/$name.toml"
+  [ -f "$manifest" ] || { echo "Unknown theme: $name" >&2; echo "Available: $(list_themes | tr '\n' ' ')" >&2; exit 1; }
+  mkdir -p "$STATE_DIR"
+  load_palette "$manifest"
+  gen_sketchybar > "$STATE_DIR/sketchybar.sh"
+  echo "$name" > "$STATE_DIR/current"
+  reload_apps
+  echo "Applied theme: $name"
+}
+
+cycle_theme() {
+  local cur; cur="$(current_theme)"
+  local -a themes; mapfile -t themes < <(list_themes)
+  local next=0 idx
+  for idx in "${!themes[@]}"; do
+    [ "${themes[$idx]}" = "$cur" ] && next=$(( (idx + 1) % ${#themes[@]} ))
+  done
+  apply_theme "${themes[$next]}"
+}
+
+case "${1:-}" in
+  --cycle) cycle_theme ;;
+  --init)  apply_theme "$(current_theme || true)" 2>/dev/null || apply_theme "$DEFAULT_THEME" ;;
+  "")      echo "usage: theme-set <name>|--cycle|--init" >&2; exit 2 ;;
+  *)       apply_theme "$1" ;;
+esac
