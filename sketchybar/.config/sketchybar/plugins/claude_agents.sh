@@ -1,26 +1,28 @@
 #!/usr/bin/env zsh
 
+source "$HOME/.config/sketchybar/colors.sh"
+
 MAX_ICONS=5
 
 # Count active claude processes (exclude grep and helper processes)
 AGENT_COUNT=$(ps aux | grep -E "[c]laude" | grep -v "grep\|helper\|Helper" | wc -l | tr -d ' ')
 
-# Determine color based on count
+# Determine color based on count — Gruvbox Material ramp
 if [[ $AGENT_COUNT -eq 0 ]]; then
-    COLOR="0x66313244"
+    COLOR=$BG_OVERLAY
 elif [[ $AGENT_COUNT -eq 1 ]]; then
-    COLOR="0xffcdd6f4"
+    COLOR=$FG
 elif [[ $AGENT_COUNT -eq 2 ]]; then
-    COLOR="0xffa6e3a1"
+    COLOR=$GREEN
 elif [[ $AGENT_COUNT -eq 3 ]]; then
-    COLOR="0xfff9e2af"
+    COLOR=$YELLOW
 else
-    COLOR="0xfffab387"
+    COLOR=$ORANGE
 fi
 
 # Update main item
 if [[ $AGENT_COUNT -eq 0 ]]; then
-    sketchybar --set claude_agents icon=󰚩 icon.color=$COLOR label="zzz" label.color=0x66cdd6f4 label.drawing=yes
+    sketchybar --set claude_agents icon=󰚩 icon.color=$COLOR label="zzz" label.color=$FG_DIM label.drawing=yes
 else
     sketchybar --set claude_agents icon=󰚩 icon.color=$COLOR label.drawing=no
 fi

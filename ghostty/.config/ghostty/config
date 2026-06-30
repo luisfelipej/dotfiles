@@ -1,16 +1,31 @@
-font-family = MesloLGS Nerd Font Mono
-font-size = 18
-background-opacity = 0.9
-theme = catppuccin-mocha
+theme = Gruvbox Material Dark
 
+font-family = "IosevkaTerm Nerd Font Mono"
+font-style = "SemiBold"
+font-style-bold = "ExtraBold"
+font-size = 15
+adjust-cell-height = 10%
+
+cursor-style = block
+cursor-style-blink = true
+
+background-opacity = 0.96
 background-blur-radius = 20
 
-window-decoration = true
+window-padding-x = 0
+window-padding-y = 0
+window-decoration = false
 window-padding-color = extend
 window-step-resize = false
-window-padding-balance = true
+window-padding-balance = false
+resize-overlay = never
 window-height = 100
 window-width = 100
+
+macos-titlebar-style = hidden
+macos-option-as-alt = true
+
+keybind = cmd+enter=toggle_fullscreen
 
 gtk-tabs-location = hidden
 

@@ -1,72 +1,96 @@
 #!/usr/bin/env zsh
 
-FONT_FACE="JetBrainsMono Nerd Font"
+ICON_FONT="JetBrainsMono Nerd Font"
+LABEL_FONT="IosevkaTerm Nerd Font Mono"
 PLUGIN_DIR="$HOME/.config/sketchybar/plugins"
+
+source "$HOME/.config/sketchybar/colors.sh"
 
 # Detect if running on laptop (built-in display)
 MAIN_DISPLAY=$(system_profiler SPDisplaysDataType | grep -B 3 'Main Display:' | awk '/Display Type/ {print $3}')
 IS_LAPTOP=$([[ "$MAIN_DISPLAY" = "Built-in" ]] && echo 1 || echo 0)
 
 sketchybar --bar \
-    height=37 \
-    color=0xcc1e1e2e \
-    margin=8 \
-    y_offset=4 \
-    corner_radius=10 \
+    height=32 \
+    color=$BAR_COLOR \
+    border_width=2 \
+    border_color=$BAR_BORDER_COLOR \
+    shadow=off \
+    margin=0 \
+    y_offset=0 \
+    corner_radius=0 \
+    position=top \
     sticky=on \
-    padding_left=12 \
-    padding_right=12 \
+    padding_left=10 \
+    padding_right=10 \
     notch_width=188 \
     display=main
 
 sketchybar --default \
-    background.color=0x66313244 \
-    background.corner_radius=5 \
-    background.padding_right=5 \
-    background.height=26 \
-    icon.font="$FONT_FACE:SemiBold:15.0" \
-    icon.padding_left=5 \
-    icon.padding_right=5 \
-    label.font="$FONT_FACE:SemiBold:12.0" \
-    label.color=0xffcdd6f4 \
+    background.color=$BG_PRIMARY \
+    background.corner_radius=0 \
+    background.padding_right=4 \
+    background.height=24 \
+    background.shadow.drawing=off \
+    icon.font="$ICON_FONT:Bold:14.0" \
+    icon.color=$FG \
+    icon.padding_left=6 \
+    icon.padding_right=4 \
+    label.font="$LABEL_FONT:SemiBold:13.0" \
+    label.color=$FG \
     label.y_offset=0 \
     label.padding_left=0 \
-    label.padding_right=5
+    label.padding_right=6
 
-sketchybar --add item current_space left \
-    --set current_space \
-    background.color=0xfffab387 \
-    icon.color=0xff1e1e2e \
-    label.drawing=off \
-    script="$PLUGIN_DIR/current_space.sh" \
-    --subscribe current_space space_change mouse.clicked
+##### Left side #####
+
+sketchybar --add event aerospace_workspace_change
+
+# AeroSpace workspaces 1..9
+for sid in $(seq 1 9); do
+    sketchybar --add item space.$sid left \
+        --set space.$sid \
+        background.color=$BG_PRIMARY \
+        background.corner_radius=0 \
+        background.height=24 \
+        icon=$sid \
+        icon.color=$FG_MUTED \
+        icon.font="$LABEL_FONT:Bold:13.0" \
+        icon.padding_left=8 \
+        icon.padding_right=8 \
+        label.drawing=off \
+        click_script="aerospace workspace $sid" \
+        script="$PLUGIN_DIR/aerospace.sh $sid" \
+        --subscribe space.$sid aerospace_workspace_change
+done
 
 sketchybar --add item front_app left \
     --set front_app \
-    background.color=0xffa6e3a1 \
+    background.color=$ORANGE \
     background.padding_left=0 \
     background.padding_right=0 \
-    icon.y_offset=1 \
-    icon.color=0xff1e1e2e \
+    icon.y_offset=0 \
+    icon.color=$BAR_COLOR \
     label.drawing=no \
     script="$PLUGIN_DIR/front_app.sh" \
     --add item front_app.separator left \
     --set front_app.separator \
-    background.color=0x00000000 \
-    background.padding_left=-3 \
+    background.color=$BG_TRANSPARENT \
+    background.padding_left=0 \
     icon= \
-    icon.color=0xffa6e3a1 \
-    icon.font="$FONT_FACE:Bold:20.0" \
+    icon.color=$ORANGE \
+    icon.font="$ICON_FONT:Bold:18.0" \
     icon.padding_left=0 \
     icon.padding_right=0 \
-    icon.y_offset=1 \
+    icon.y_offset=0 \
     label.drawing=no \
     --add item front_app.name left \
     --set front_app.name \
-    background.color=0x00000000 \
+    background.color=$BG_TRANSPARENT \
     background.padding_right=0 \
     icon.drawing=off \
-    label.font="$FONT_FACE:Bold:12.0" \
+    label.font="$LABEL_FONT:Bold:13.0" \
+    label.color=$FG \
     label.drawing=yes
 
 sketchybar --add bracket front_app_bracket \
@@ -75,15 +99,17 @@ sketchybar --add bracket front_app_bracket \
     front_app.name \
     --subscribe front_app front_app_switched
 
+##### Center #####
+
 sketchybar --add item claude_agents center \
     --set claude_agents \
     icon=󰚩 \
-    icon.font="$FONT_FACE:SemiBold:18.0" \
-    icon.color=0x66313244 \
-    icon.padding_right=2 \
+    icon.font="$ICON_FONT:Bold:16.0" \
+    icon.color=$BG_OVERLAY \
+    icon.padding_right=4 \
     label="zzz" \
-    label.color=0x66cdd6f4 \
-    background.color=0x00000000 \
+    label.color=$FG_DIM \
+    background.color=$BG_TRANSPARENT \
     background.padding_right=0 \
     update_freq=5 \
     script="$PLUGIN_DIR/claude_agents.sh"
@@ -92,41 +118,59 @@ for i in $(seq 1 5); do
     sketchybar --add item claude_agent_$i center \
         --set claude_agent_$i \
         icon=󰚩 \
-        icon.font="$FONT_FACE:SemiBold:18.0" \
+        icon.font="$ICON_FONT:Bold:16.0" \
         icon.drawing=off \
         icon.padding_left=4 \
         icon.padding_right=2 \
         label.drawing=off \
-        background.color=0x00000000 \
+        background.color=$BG_TRANSPARENT \
         background.padding_left=0 \
         background.padding_right=0
 done
 
+##### Right side #####
+
 sketchybar --add item clock right \
     --set clock \
     icon=󰃰 \
-    icon.color=0xfff38ba8 \
+    icon.color=$CLOCK_FG \
     update_freq=10 \
     script="$PLUGIN_DIR/clock.sh"
 
+sketchybar --add item separator.1 right \
+    --set separator.1 \
+    label="│" \
+    label.color=$BG_OVERLAY \
+    background.drawing=off \
+    padding_left=2 \
+    padding_right=2
+
 sketchybar --add item weather right \
     --set weather \
-    icon.color=0xfff5c2e7 \
+    icon.color=$WEATHER_FG \
     update_freq=1800 \
     script="$PLUGIN_DIR/weather_minimal.sh" \
     --subscribe weather system_woke
 
 sketchybar --add item volume right \
     --set volume \
-    icon.color=0xff89b4fa \
+    icon.color=$VOLUME_FG \
     label.drawing=true \
     script="$PLUGIN_DIR/volume.sh" \
     --subscribe volume volume_change
 
+sketchybar --add item separator.2 right \
+    --set separator.2 \
+    label="│" \
+    label.color=$BG_OVERLAY \
+    background.drawing=off \
+    padding_left=2 \
+    padding_right=2
+
 sketchybar --add item pomodoro right \
     --set pomodoro \
     icon=󰔟 \
-    icon.color=0xffcdd6f4 \
+    icon.color=$POMODORO_FG \
     label="off" \
     update_freq=1 \
     script="$PLUGIN_DIR/pomodoro.sh" \
@@ -136,10 +180,12 @@ sketchybar --add item pomodoro right \
 if [[ $IS_LAPTOP -eq 1 ]]; then
     sketchybar --add item battery right \
         --set battery \
+        icon.color=$BATTERY_OK \
+        label.color=$FG \
         update_freq=20 \
         script="$PLUGIN_DIR/battery.sh"
 fi
 
 ##### Finalizing Setup #####
 sketchybar --update
-sketchybar --trigger space_change
+sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$(aerospace list-workspaces --focused 2>/dev/null)

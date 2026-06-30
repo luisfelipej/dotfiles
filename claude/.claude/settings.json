@@ -28,5 +28,8 @@
       }
     }
   },
-  "skipDangerousModePermissionPrompt": true
+  "effortLevel": "xhigh",
+  "skipDangerousModePermissionPrompt": true,
+  "skipWorkflowUsageWarning": true,
+  "tui": "fullscreen"
 }
