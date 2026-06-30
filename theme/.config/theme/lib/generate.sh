@@ -144,6 +144,11 @@ theme[process_end]="#${red}"
 EOF
 }
 
+gen_starship() {
+  local base=$1 name=$2
+  sed "s/^palette = .*/palette = \"${name}\"/" "$base"
+}
+
 gen_sketchybar() {
   cat <<EOF
 #!/usr/bin/env zsh

@@ -95,6 +95,7 @@ fish_vi_key_bindings
 set -gx EDITOR nvim
 set -gx VISUAL nvim
 set -gx LG_CONFIG_FILE "$HOME/.config/lazygit/config.yml,$HOME/.local/state/theme/lazygit.yml"
+set -gx STARSHIP_CONFIG "$HOME/.local/state/theme/starship.toml"
 
 ## alias
 if test (uname) = Darwin

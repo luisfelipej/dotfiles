@@ -47,4 +47,12 @@ gen_check tokyo-night     nvim gen_nvim "$THEMES/tokyo-night.toml"
 gen_check gruvbox-material btop.theme gen_btop "Gruvbox Material"
 gen_check tokyo-night     btop.theme gen_btop "Tokyo Night"
 
+# gen_starship: the active palette line is rewritten, palettes preserved
+base="$THEMES/../../../../starship/.config/starship.toml"
+if [ -f "$base" ]; then
+  out="$(gen_starship "$base" tokyo-night)"
+  check "starship palette switched" "$(echo "$out" | grep -m1 '^palette =')" 'palette = "tokyo-night"'
+  check "starship keeps gruvbox palette def" "$(echo "$out" | grep -c '\[palettes.gruvbox-material\]')" "1"
+fi
+
 exit $fail

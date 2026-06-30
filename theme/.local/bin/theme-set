@@ -35,6 +35,9 @@ apply_theme() {
   local display; display="$(manifest_get "$manifest" theme name)"
   mkdir -p "$HOME/.config/btop/themes"
   gen_btop "$display" > "$HOME/.config/btop/themes/current.theme"
+  if [ -f "$HOME/.config/starship.toml" ]; then
+    gen_starship "$HOME/.config/starship.toml" "$name" > "$STATE_DIR/starship.toml"
+  fi
   echo "$name" > "$STATE_DIR/current"
   reload_apps
   echo "Applied theme: $name"
