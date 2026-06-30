@@ -90,6 +90,11 @@ gui:
 EOF
 }
 
+gen_nvim() {
+  local m=$1
+  manifest_get "$m" native nvim
+}
+
 gen_sketchybar() {
   cat <<EOF
 #!/usr/bin/env zsh

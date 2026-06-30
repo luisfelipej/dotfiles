@@ -41,4 +41,7 @@ gen_check tokyo-night     ghostty.conf gen_ghostty "$THEMES/tokyo-night.toml"
 gen_check gruvbox-material lazygit.yml gen_lazygit
 gen_check tokyo-night     lazygit.yml gen_lazygit
 
+gen_check gruvbox-material nvim gen_nvim "$THEMES/gruvbox-material.toml"
+gen_check tokyo-night     nvim gen_nvim "$THEMES/tokyo-night.toml"
+
 exit $fail
