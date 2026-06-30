@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
+shopt -s nullglob
 
 DOTFILES="$HOME/.dotfiles"
 THEMES_DIR="$HOME/.config/theme/themes"

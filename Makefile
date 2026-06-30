@@ -7,6 +7,8 @@ stow:
 		echo "Stowing $$pkg..."; \
 		stow -t ~ $$pkg; \
 	done
+	@stow --no-folding -R -t ~ btop
+	@"$$HOME/.local/bin/theme-set" --init
 
 unstow:
 	@for pkg in $(PACKAGES); do \
@@ -28,7 +30,7 @@ adopt:
 
 stow-btop:
 	@echo "Stowing btop (no-folding)..."
-	@stow --no-folding -t ~ btop
+	@stow --no-folding -R -t ~ btop
 
 test-theme:
 	@bash theme/.config/theme/lib/test.sh

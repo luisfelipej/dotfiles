@@ -48,7 +48,8 @@ gen_check gruvbox-material btop.theme gen_btop "Gruvbox Material"
 gen_check tokyo-night     btop.theme gen_btop "Tokyo Night"
 
 # gen_starship: the active palette line is rewritten, palettes preserved
-base="$THEMES/../../../../starship/.config/starship.toml"
+_root="$(git -C "$DIR" rev-parse --show-toplevel 2>/dev/null || echo "$DIR/../../../..")"
+base="$_root/starship/.config/starship.toml"
 if [ -f "$base" ]; then
   out="$(gen_starship "$base" tokyo-night)"
   check "starship palette switched" "$(echo "$out" | grep -m1 '^palette =')" 'palette = "tokyo-night"'

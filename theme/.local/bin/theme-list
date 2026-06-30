@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
+shopt -s nullglob
 THEMES_DIR="$HOME/.config/theme/themes"
 STATE_DIR="${XDG_STATE_HOME:-$HOME/.local/state}/theme"
 cur="$(cat "$STATE_DIR/current" 2>/dev/null || true)"
