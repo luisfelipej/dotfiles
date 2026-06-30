@@ -1,6 +1,6 @@
 PACKAGES = sketchybar nvim fish ghostty tmux claude git starship mise lf aerospace borders lazygit
 
-.PHONY: stow unstow restow adopt status
+.PHONY: stow unstow restow adopt status test-theme
 
 stow:
 	@for pkg in $(PACKAGES); do \
@@ -25,6 +25,9 @@ adopt:
 		echo "Adopting $$pkg..."; \
 		stow --adopt -t ~ $$pkg; \
 	done
+
+test-theme:
+	@bash theme/.config/theme/lib/test.sh
 
 status:
 	@echo "Symlink status:"

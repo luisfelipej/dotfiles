@@ -55,4 +55,16 @@ if [ -f "$base" ]; then
   check "starship keeps gruvbox palette def" "$(echo "$out" | grep -c '\[palettes.gruvbox-material\]')" "1"
 fi
 
+# --- idempotency: generating twice is byte-identical ---
+for theme in gruvbox-material tokyo-night; do
+  load_palette "$THEMES/$theme.toml"
+  a="$(gen_sketchybar)"; b="$(gen_sketchybar)"
+  check "idempotent sketchybar $theme" "$a" "$b"
+done
+
+# --- shell fragments parse with bash -n ---
+load_palette "$THEMES/gruvbox-material.toml"
+if gen_sketchybar | bash -n; then echo "ok - sketchybar.sh valid shell"; else echo "FAIL - sketchybar.sh invalid"; fail=1; fi
+if gen_borders | bash -n; then echo "ok - borders.env valid shell"; else echo "FAIL - borders.env invalid"; fail=1; fi
+
 exit $fail
