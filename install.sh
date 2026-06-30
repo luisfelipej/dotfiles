@@ -35,11 +35,20 @@ if [ -f "$GHOSTTY_APP_SUPPORT/config" ] && [ ! -L "$HOME/.config/ghostty/config"
 fi
 
 # 5. Stow all packages (restow mode for idempotency)
-PACKAGES=(sketchybar nvim fish ghostty tmux claude git starship mise)
+PACKAGES=(sketchybar nvim fish ghostty tmux claude git starship mise theme)
 for pkg in "${PACKAGES[@]}"; do
     echo "Stowing $pkg..."
     stow --adopt -R -t ~ "$pkg"
 done
+
+# 5b. btop needs a real themes/ dir for the generated current.theme
+echo "Stowing btop (no-folding)..."
+stow --no-folding -R -t ~ btop
+
+# 5c. Ensure ~/.local/bin on PATH and apply the default theme
+fish -c 'fish_add_path -g $HOME/.local/bin' 2>/dev/null || true
+echo "Applying default theme..."
+"$HOME/.local/bin/theme-set" --init
 
 # 6. Install TPM if missing
 TPM_DIR="$HOME/.tmux/plugins/tpm"

@@ -3,3 +3,4 @@
 *.swo
 *~
 .envrc
+btop/.config/btop/themes/current.theme

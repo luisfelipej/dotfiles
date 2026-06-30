@@ -1,6 +1,6 @@
-PACKAGES = sketchybar nvim fish ghostty tmux claude git starship mise lf aerospace borders lazygit
+PACKAGES = sketchybar nvim fish ghostty tmux claude git starship mise lf aerospace borders lazygit theme
 
-.PHONY: stow unstow restow adopt status test-theme
+.PHONY: stow unstow restow adopt status test-theme stow-btop
 
 stow:
 	@for pkg in $(PACKAGES); do \
@@ -25,6 +25,10 @@ adopt:
 		echo "Adopting $$pkg..."; \
 		stow --adopt -t ~ $$pkg; \
 	done
+
+stow-btop:
+	@echo "Stowing btop (no-folding)..."
+	@stow --no-folding -t ~ btop
 
 test-theme:
 	@bash theme/.config/theme/lib/test.sh
