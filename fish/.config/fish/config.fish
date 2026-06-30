@@ -19,6 +19,7 @@ if status is-interactive
     abbr --add tks tmux kill-session -t
 
     abbr --add n nvim
+    abbr --add lzd lazydocker
 
 end
 
