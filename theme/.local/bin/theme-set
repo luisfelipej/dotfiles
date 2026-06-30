@@ -15,6 +15,10 @@ current_theme() { cat "$STATE_DIR/current" 2>/dev/null || true; }
 
 reload_apps() {
   command -v sketchybar >/dev/null 2>&1 && sketchybar --reload >/dev/null 2>&1 || true
+  if command -v borders >/dev/null 2>&1; then
+    pkill -x borders >/dev/null 2>&1 || true
+    bash "$HOME/.config/borders/bordersrc" >/dev/null 2>&1 || true
+  fi
 }
 
 apply_theme() {
@@ -24,6 +28,7 @@ apply_theme() {
   mkdir -p "$STATE_DIR"
   load_palette "$manifest"
   gen_sketchybar > "$STATE_DIR/sketchybar.sh"
+  gen_borders > "$STATE_DIR/borders.env"
   echo "$name" > "$STATE_DIR/current"
   reload_apps
   echo "Applied theme: $name"

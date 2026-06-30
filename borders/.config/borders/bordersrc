@@ -1,11 +1,16 @@
 #!/usr/bin/env bash
-# JankyBorders — Gruvbox Material Dark accents
+# JankyBorders — colors come from the theme state fragment, with a fallback.
 # Docs: https://github.com/FelixKratz/JankyBorders
+
+ACTIVE_COLOR=0xffe78a4e
+INACTIVE_COLOR=0xff504945
+_state="${XDG_STATE_HOME:-$HOME/.local/state}/theme/borders.env"
+[ -f "$_state" ] && source "$_state"
 
 borders \
   style=round \
   width=3.0 \
   hidpi=on \
-  active_color=0xffe78a4e \
-  inactive_color=0xff504945 \
+  active_color="$ACTIVE_COLOR" \
+  inactive_color="$INACTIVE_COLOR" \
   background_color=0x00000000 &

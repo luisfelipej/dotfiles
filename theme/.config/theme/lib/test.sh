@@ -32,4 +32,7 @@ gen_check() { # gen_check THEME APP GENFN [GENARG]
 gen_check gruvbox-material sketchybar.sh gen_sketchybar
 gen_check tokyo-night     sketchybar.sh gen_sketchybar
 
+gen_check gruvbox-material borders.env gen_borders
+gen_check tokyo-night     borders.env gen_borders
+
 exit $fail

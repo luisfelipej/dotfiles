@@ -44,6 +44,13 @@ load_palette() {
   accent=$(manifest_get "$m" palette accent)
 }
 
+gen_borders() {
+  cat <<EOF
+ACTIVE_COLOR=0xff${accent}
+INACTIVE_COLOR=0xff${bg_overlay}
+EOF
+}
+
 gen_sketchybar() {
   cat <<EOF
 #!/usr/bin/env zsh
