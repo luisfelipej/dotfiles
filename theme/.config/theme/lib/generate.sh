@@ -56,6 +56,40 @@ gen_ghostty() {
   echo "theme = $(manifest_get "$m" native ghostty)"
 }
 
+gen_lazygit() {
+  cat <<EOF
+gui:
+  theme:
+    activeBorderColor:
+      - "#${accent}"
+      - bold
+    inactiveBorderColor:
+      - "#${bg_overlay}"
+    searchingActiveBorderColor:
+      - "#${yellow}"
+      - bold
+    optionsTextColor:
+      - "#${blue}"
+    selectedLineBgColor:
+      - "#${bg_selection}"
+    cherryPickedCommitBgColor:
+      - "#${bg_overlay}"
+    cherryPickedCommitFgColor:
+      - "#${yellow}"
+    markedBaseCommitBgColor:
+      - "#${bg_overlay}"
+    markedBaseCommitFgColor:
+      - "#${red}"
+    unstagedChangesColor:
+      - "#${red}"
+    defaultFgColor:
+      - "#${fg}"
+  authorColors:
+    "*": "#${purple}"
+  nerdFontsVersion: "3"
+EOF
+}
+
 gen_sketchybar() {
   cat <<EOF
 #!/usr/bin/env zsh

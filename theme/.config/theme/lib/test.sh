@@ -38,4 +38,7 @@ gen_check tokyo-night     borders.env gen_borders
 gen_check gruvbox-material ghostty.conf gen_ghostty "$THEMES/gruvbox-material.toml"
 gen_check tokyo-night     ghostty.conf gen_ghostty "$THEMES/tokyo-night.toml"
 
+gen_check gruvbox-material lazygit.yml gen_lazygit
+gen_check tokyo-night     lazygit.yml gen_lazygit
+
 exit $fail

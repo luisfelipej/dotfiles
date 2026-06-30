@@ -30,6 +30,7 @@ apply_theme() {
   gen_sketchybar > "$STATE_DIR/sketchybar.sh"
   gen_borders > "$STATE_DIR/borders.env"
   gen_ghostty "$manifest" > "$STATE_DIR/ghostty.conf"
+  gen_lazygit > "$STATE_DIR/lazygit.yml"
   echo "$name" > "$STATE_DIR/current"
   reload_apps
   echo "Applied theme: $name"
