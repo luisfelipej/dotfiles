@@ -1,4 +1,4 @@
-theme = Gruvbox Material Dark
+config-file = ?~/.local/state/theme/ghostty.conf
 
 font-family = "IosevkaTerm Nerd Font Mono"
 font-style = "SemiBold"

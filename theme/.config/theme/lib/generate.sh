@@ -51,6 +51,11 @@ INACTIVE_COLOR=0xff${bg_overlay}
 EOF
 }
 
+gen_ghostty() {
+  local m=$1
+  echo "theme = $(manifest_get "$m" native ghostty)"
+}
+
 gen_sketchybar() {
   cat <<EOF
 #!/usr/bin/env zsh
