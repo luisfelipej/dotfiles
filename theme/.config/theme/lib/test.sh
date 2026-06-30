@@ -44,4 +44,7 @@ gen_check tokyo-night     lazygit.yml gen_lazygit
 gen_check gruvbox-material nvim gen_nvim "$THEMES/gruvbox-material.toml"
 gen_check tokyo-night     nvim gen_nvim "$THEMES/tokyo-night.toml"
 
+gen_check gruvbox-material btop.theme gen_btop "Gruvbox Material"
+gen_check tokyo-night     btop.theme gen_btop "Tokyo Night"
+
 exit $fail
