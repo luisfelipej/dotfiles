@@ -14,4 +14,8 @@ check "native ghostty gruvbox" "$(manifest_get "$THEMES/gruvbox-material.toml" n
 check "bg tokyo" "$(manifest_get "$THEMES/tokyo-night.toml" palette bg)" "1a1b26"
 check "absent key" "$(manifest_get "$THEMES/gruvbox-material.toml" palette nope)" ""
 
+load_palette "$THEMES/gruvbox-material.toml"
+check "load_palette bg" "$bg" "282828"
+check "load_palette accent" "$accent" "e78a4e"
+
 exit $fail

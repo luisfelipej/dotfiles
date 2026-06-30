@@ -11,7 +11,10 @@ manifest_get() {
     ins {
       line=$0
       sub(/[ \t]*#.*$/, "", line)
-      if (line ~ ("^[ \t]*" key "[ \t]*=")) {
+      keyfield=line
+      sub(/[ \t]*=.*$/, "", keyfield)
+      gsub(/^[ \t]+|[ \t]+$/, "", keyfield)
+      if (keyfield == key) {
         sub(/^[^=]*=[ \t]*/, "", line)
         gsub(/^[ \t]*"|"[ \t]*$/, "", line)
         print line
