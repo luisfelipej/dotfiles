@@ -1,0 +1,24 @@
+[theme]
+name = "tokyo-night"
+wallpaper = ""
+
+[palette]
+bg           = "1a1b26"
+bg_alt       = "16161e"
+bg_secondary = "24283b"
+bg_overlay   = "414868"
+bg_selection = "33467c"
+fg           = "c0caf5"
+fg_muted     = "565f89"
+red          = "f7768e"
+orange       = "ff9e64"
+yellow       = "e0af68"
+green        = "9ece6a"
+aqua         = "7dcfff"
+blue         = "7aa2f7"
+purple       = "bb9af7"
+accent       = "7aa2f7"
+
+[native]
+ghostty = "TokyoNight"
+nvim    = "tokyonight"
