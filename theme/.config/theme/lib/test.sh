@@ -18,4 +18,18 @@ load_palette "$THEMES/gruvbox-material.toml"
 check "load_palette bg" "$bg" "282828"
 check "load_palette accent" "$accent" "e78a4e"
 
+# --- fragment golden tests ---
+gen_check() { # gen_check THEME APP GENFN [GENARG]
+  local theme=$1 app=$2 fn=$3 arg=${4:-}
+  load_palette "$THEMES/$theme.toml"
+  local got want
+  got="$($fn "$arg")"
+  want="$(cat "$DIR/golden/$theme/$app")"
+  if [ "$got" = "$want" ]; then echo "ok - $app $theme"; else
+    echo "FAIL - $app $theme:"; diff <(echo "$want") <(echo "$got") | sed 's/^/    /'; fail=1; fi
+}
+
+gen_check gruvbox-material sketchybar.sh gen_sketchybar
+gen_check tokyo-night     sketchybar.sh gen_sketchybar
+
 exit $fail
