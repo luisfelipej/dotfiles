@@ -1,7 +1,7 @@
 #!/usr/bin/env zsh
 
-ICON_FONT="JetBrainsMono Nerd Font"
-LABEL_FONT="IosevkaTerm Nerd Font Mono"
+ICON_FONT="CaskaydiaMono Nerd Font"
+LABEL_FONT="CaskaydiaMono Nerd Font"
 PLUGIN_DIR="$HOME/.config/sketchybar/plugins"
 
 # Theme colors: prefer generated state fragment, fall back to committed default
