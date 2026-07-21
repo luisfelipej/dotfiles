@@ -1,20 +1,19 @@
-theme = Gruvbox Material Dark
+theme = Kanagawa Wave
 
-font-family = "IosevkaTerm Nerd Font Mono"
-font-style = "SemiBold"
-font-style-bold = "ExtraBold"
-font-size = 15
+font-family = "JetBrainsMono Nerd Font"
+font-style = "Medium"
+font-style-bold = "Bold"
+font-size = 16
 adjust-cell-height = 10%
 
 cursor-style = block
 cursor-style-blink = true
 
-background-opacity = 0.96
-background-blur-radius = 20
+background-opacity = 1.0
 
 window-padding-x = 0
 window-padding-y = 0
-window-decoration = false
+window-decoration = true
 window-padding-color = extend
 window-step-resize = false
 window-padding-balance = false
@@ -22,8 +21,10 @@ resize-overlay = never
 window-height = 100
 window-width = 100
 
-macos-titlebar-style = hidden
+macos-titlebar-style = transparent
+macos-titlebar-proxy-icon = hidden
 macos-option-as-alt = true
+window-theme = ghostty
 
 keybind = cmd+enter=toggle_fullscreen
 

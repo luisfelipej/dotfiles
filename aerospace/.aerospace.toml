@@ -37,7 +37,7 @@ inner.horizontal = 6
 inner.vertical = 6
 outer.left = 6
 outer.right = 6
-outer.top = 48   # leave room for SketchyBar + macOS menu bar
+outer.top = 8    # SketchyBar vive en la zona del notch (menú auto-oculto); solo un respiro
 outer.bottom = 6
 
 # === Main mode ===

@@ -1,7 +1,7 @@
 #!/usr/bin/env zsh
 
 ICON_FONT="JetBrainsMono Nerd Font"
-LABEL_FONT="IosevkaTerm Nerd Font Mono"
+LABEL_FONT="JetBrainsMono Nerd Font"
 PLUGIN_DIR="$HOME/.config/sketchybar/plugins"
 
 source "$HOME/.config/sketchybar/colors.sh"
@@ -32,11 +32,11 @@ sketchybar --default \
     background.padding_right=4 \
     background.height=24 \
     background.shadow.drawing=off \
-    icon.font="$ICON_FONT:Bold:14.0" \
+    icon.font="$ICON_FONT:Bold:15.0" \
     icon.color=$FG \
     icon.padding_left=6 \
     icon.padding_right=4 \
-    label.font="$LABEL_FONT:SemiBold:13.0" \
+    label.font="$LABEL_FONT:SemiBold:14.0" \
     label.color=$FG \
     label.y_offset=0 \
     label.padding_left=0 \
@@ -66,7 +66,7 @@ done
 
 sketchybar --add item front_app left \
     --set front_app \
-    background.color=$ORANGE \
+    background.color=$ACCENT \
     background.padding_left=0 \
     background.padding_right=0 \
     icon.y_offset=0 \
@@ -78,7 +78,7 @@ sketchybar --add item front_app left \
     background.color=$BG_TRANSPARENT \
     background.padding_left=0 \
     icon= \
-    icon.color=$ORANGE \
+    icon.color=$ACCENT \
     icon.font="$ICON_FONT:Bold:18.0" \
     icon.padding_left=0 \
     icon.padding_right=0 \
