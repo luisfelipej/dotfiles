@@ -61,6 +61,7 @@ source "$ITEM_DIR/pomodoro.sh"
 source "$ITEM_DIR/cpu.sh"
 source "$ITEM_DIR/memory.sh"
 [[ $IS_LAPTOP -eq 1 ]] && source "$ITEM_DIR/battery.sh"
+source "$ITEM_DIR/wifi.sh"
 
 ##### Finalize #####
 sketchybar --update
