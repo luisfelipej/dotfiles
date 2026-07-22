@@ -2,9 +2,10 @@
 
 ICON_FONT="JetBrainsMono Nerd Font"
 LABEL_FONT="JetBrainsMono Nerd Font"
-PLUGIN_DIR="$HOME/.config/sketchybar/plugins"
+PLUGIN_DIR="$CONFIG_DIR/plugins"
+ITEM_DIR="$CONFIG_DIR/items"
 
-source "$HOME/.config/sketchybar/colors.sh"
+source "$CONFIG_DIR/colors.sh"
 
 # Detect if running on laptop (built-in display)
 MAIN_DISPLAY=$(system_profiler SPDisplaysDataType | grep -B 3 'Main Display:' | awk '/Display Type/ {print $3}')
@@ -42,150 +43,22 @@ sketchybar --default \
     label.padding_left=0 \
     label.padding_right=6
 
-##### Left side #####
-
-sketchybar --add event aerospace_workspace_change
-
-# AeroSpace workspaces 1..9
-for sid in $(seq 1 9); do
-    sketchybar --add item space.$sid left \
-        --set space.$sid \
-        background.color=$BG_PRIMARY \
-        background.corner_radius=0 \
-        background.height=24 \
-        icon=$sid \
-        icon.color=$FG_MUTED \
-        icon.font="$LABEL_FONT:Bold:13.0" \
-        icon.padding_left=8 \
-        icon.padding_right=8 \
-        label.drawing=off \
-        click_script="aerospace workspace $sid" \
-        script="$PLUGIN_DIR/aerospace.sh $sid" \
-        --subscribe space.$sid aerospace_workspace_change
-done
-
-sketchybar --add item front_app left \
-    --set front_app \
-    background.color=$ACCENT \
-    background.padding_left=0 \
-    background.padding_right=0 \
-    icon.y_offset=0 \
-    icon.color=$BAR_COLOR \
-    label.drawing=no \
-    script="$PLUGIN_DIR/front_app.sh" \
-    --add item front_app.separator left \
-    --set front_app.separator \
-    background.color=$BG_TRANSPARENT \
-    background.padding_left=0 \
-    icon= \
-    icon.color=$ACCENT \
-    icon.font="$ICON_FONT:Bold:18.0" \
-    icon.padding_left=0 \
-    icon.padding_right=0 \
-    icon.y_offset=0 \
-    label.drawing=no \
-    --add item front_app.name left \
-    --set front_app.name \
-    background.color=$BG_TRANSPARENT \
-    background.padding_right=0 \
-    icon.drawing=off \
-    label.font="$LABEL_FONT:Bold:13.0" \
-    label.color=$FG \
-    label.drawing=yes
-
-sketchybar --add bracket front_app_bracket \
-    front_app \
-    front_app.separator \
-    front_app.name \
-    --subscribe front_app front_app_switched
+##### Left #####
+source "$ITEM_DIR/spaces.sh"
+source "$ITEM_DIR/front_app.sh"
 
 ##### Center #####
+source "$ITEM_DIR/claude_agents.sh"
 
-sketchybar --add item claude_agents center \
-    --set claude_agents \
-    icon=󰚩 \
-    icon.font="$ICON_FONT:Bold:16.0" \
-    icon.color=$BG_OVERLAY \
-    icon.padding_right=4 \
-    label="zzz" \
-    label.color=$FG_DIM \
-    background.color=$BG_TRANSPARENT \
-    background.padding_right=0 \
-    update_freq=5 \
-    script="$PLUGIN_DIR/claude_agents.sh"
+##### Right (add-order: rightmost first) #####
+source "$ITEM_DIR/clock.sh"
+source "$ITEM_DIR/separator1.sh"
+source "$ITEM_DIR/weather.sh"
+source "$ITEM_DIR/volume.sh"
+source "$ITEM_DIR/separator2.sh"
+source "$ITEM_DIR/pomodoro.sh"
+[[ $IS_LAPTOP -eq 1 ]] && source "$ITEM_DIR/battery.sh"
 
-for i in $(seq 1 5); do
-    sketchybar --add item claude_agent_$i center \
-        --set claude_agent_$i \
-        icon=󰚩 \
-        icon.font="$ICON_FONT:Bold:16.0" \
-        icon.drawing=off \
-        icon.padding_left=4 \
-        icon.padding_right=2 \
-        label.drawing=off \
-        background.color=$BG_TRANSPARENT \
-        background.padding_left=0 \
-        background.padding_right=0
-done
-
-##### Right side #####
-
-sketchybar --add item clock right \
-    --set clock \
-    icon=󰃰 \
-    icon.color=$CLOCK_FG \
-    update_freq=10 \
-    script="$PLUGIN_DIR/clock.sh"
-
-sketchybar --add item separator.1 right \
-    --set separator.1 \
-    label="│" \
-    label.color=$BG_OVERLAY \
-    background.drawing=off \
-    padding_left=2 \
-    padding_right=2
-
-sketchybar --add item weather right \
-    --set weather \
-    icon.color=$WEATHER_FG \
-    update_freq=1800 \
-    script="$PLUGIN_DIR/weather_minimal.sh" \
-    --subscribe weather system_woke
-
-sketchybar --add item volume right \
-    --set volume \
-    icon.color=$VOLUME_FG \
-    label.drawing=true \
-    script="$PLUGIN_DIR/volume.sh" \
-    --subscribe volume volume_change
-
-sketchybar --add item separator.2 right \
-    --set separator.2 \
-    label="│" \
-    label.color=$BG_OVERLAY \
-    background.drawing=off \
-    padding_left=2 \
-    padding_right=2
-
-sketchybar --add item pomodoro right \
-    --set pomodoro \
-    icon=󰔟 \
-    icon.color=$POMODORO_FG \
-    label="off" \
-    update_freq=1 \
-    script="$PLUGIN_DIR/pomodoro.sh" \
-    --subscribe pomodoro mouse.clicked
-
-# Battery (laptop only)
-if [[ $IS_LAPTOP -eq 1 ]]; then
-    sketchybar --add item battery right \
-        --set battery \
-        icon.color=$BATTERY_OK \
-        label.color=$FG \
-        update_freq=20 \
-        script="$PLUGIN_DIR/battery.sh"
-fi
-
-##### Finalizing Setup #####
+##### Finalize #####
 sketchybar --update
 sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$(aerospace list-workspaces --focused 2>/dev/null)

@@ -34,3 +34,26 @@ export CLOCK_FG=$YELLOW
 export WEATHER_FG=$AQUA
 export VOLUME_FG=$BLUE
 export POMODORO_FG=$FG
+
+# Font for ported plugins
+export FONT="JetBrainsMono Nerd Font"
+
+# New-widget semantic roles (reuse Kanagawa base colors)
+export WIFI_OK=$GREEN
+export WIFI_OFF=$RED
+export BRIGHTNESS_FG=$YELLOW
+
+# Opaque popup styling (apple / homebrew menus)
+export POPUP_BG=$BG_PRIMARY
+export POPUP_BORDER=$BG_OVERLAY
+
+# color_for_value VALUE T1 COLOR1 T2 COLOR2 ... DEFAULT_COLOR
+# Thresholds descending; returns first COLOR where VALUE >= threshold.
+color_for_value() {
+  local value=$1; shift
+  while [ $# -gt 1 ]; do
+    local threshold=$1 color=$2; shift 2
+    if [ "$value" -ge "$threshold" ]; then echo "$color"; return; fi
+  done
+  echo "$1"
+}
