@@ -17,9 +17,9 @@ sketchybar --bar \
     border_width=2 \
     border_color=$BAR_BORDER_COLOR \
     shadow=off \
-    margin=0 \
-    y_offset=0 \
-    corner_radius=0 \
+    margin=12 \
+    y_offset=10 \
+    corner_radius=9 \
     position=top \
     sticky=on \
     padding_left=10 \

@@ -37,14 +37,16 @@ inner.horizontal = 6
 inner.vertical = 6
 outer.left = 6
 outer.right = 6
-# SketchyBar (height=32 + border=2 ≈ 34px) vive en position=top.
-# En el built-in, el notch ya reserva esa franja: basta un respiro (8px).
-# En pantallas externas no hay notch y el menú está auto-oculto, así que
-# AeroSpace embaldosa desde y=0 y hay que dejar el alto de la barra + gap.
-# (El Mac mini no tiene built-in → cae al default de 40.)
+# SketchyBar flota (y_offset=10 + height=32 + border=2 ≈ borde inferior en y=44),
+# con margin lateral=12 y esquinas redondeadas. Las ventanas deben despejar ese
+# borde inferior + un respiro.
+# En pantallas externas no hay notch y el menú está auto-oculto, así que AeroSpace
+# embaldosa desde y=0: hay que dejar todo el alto de la barra flotante + gap (≈50).
+# En el built-in el notch ya reserva la franja superior, pero la barra flotante
+# baja hasta y≈44, así que igual conviene ~46 (VERIFICAR/AJUSTAR en el MacBook).
 outer.top = [
-    { monitor.'built-in.*' = 8 },
-    40,
+    { monitor.'built-in.*' = 46 },
+    50,
 ]
 outer.bottom = 6
 
