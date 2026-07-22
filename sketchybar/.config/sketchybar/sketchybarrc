@@ -51,19 +51,17 @@ source "$ITEM_DIR/front_app.sh"
 ##### Center #####
 source "$ITEM_DIR/claude_agents.sh"
 
-##### Right (add-order: rightmost first) #####
+##### Right (add-order is rightmost-first → reverse of visual order) #####
 source "$ITEM_DIR/clock.sh"
-source "$ITEM_DIR/separator1.sh"
-source "$ITEM_DIR/weather.sh"
-source "$ITEM_DIR/volume.sh"
-source "$ITEM_DIR/separator2.sh"
-source "$ITEM_DIR/pomodoro.sh"
-source "$ITEM_DIR/cpu.sh"
-source "$ITEM_DIR/memory.sh"
 [[ $IS_LAPTOP -eq 1 ]] && source "$ITEM_DIR/battery.sh"
-source "$ITEM_DIR/wifi.sh"
+source "$ITEM_DIR/weather.sh"
 source "$ITEM_DIR/brightness.sh"
+source "$ITEM_DIR/volume.sh"
+source "$ITEM_DIR/wifi.sh"
+source "$ITEM_DIR/memory.sh"
+source "$ITEM_DIR/cpu.sh"
 source "$ITEM_DIR/homebrew.sh"
+source "$ITEM_DIR/pomodoro.sh"
 
 ##### Finalize #####
 sketchybar --update
