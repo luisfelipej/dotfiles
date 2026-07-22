@@ -42,7 +42,7 @@ if [ "$COUNT" -eq 0 ]; then
   exit 0
 fi
 
-sketchybar --set "$NAME" drawing=on icon= label="$COUNT" icon.color="$COLOR" label.color="$COLOR"
+sketchybar --set "$NAME" drawing=on icon= label="$COUNT" icon.color="$COLOR" label.color="$COLOR"
 
 # Rebuild popup list
 sketchybar --remove '/homebrew.pkg\..*/' 2>/dev/null

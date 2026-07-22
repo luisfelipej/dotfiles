@@ -1,6 +1,6 @@
 #!/usr/bin/env zsh
 
-source "$HOME/.config/sketchybar/colors.sh"
+source "$CONFIG_DIR/colors.sh"
 
 # Highlight the focused AeroSpace workspace as a filled rounded pill;
 # mute inactive workspaces (transparent background, dim icon).

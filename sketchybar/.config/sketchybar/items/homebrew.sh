@@ -7,7 +7,7 @@ sketchybar --add event brew_update
 
 sketchybar --add item homebrew right \
     --set homebrew \
-    icon= \
+    icon= \
     label="?" \
     update_freq=300 \
     popup.height=30 \
