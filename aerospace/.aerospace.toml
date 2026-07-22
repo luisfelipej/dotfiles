@@ -5,14 +5,14 @@
 start-at-login = true
 
 # Notify Sketchybar about workspace change
-exec-on-workspace-change = ['/bin/bash', '-c',
-    'sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE'
+exec-on-workspace-change = [
+  '/bin/bash',
+  '-c',
+  'sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE',
 ]
 
 # Start JankyBorders on session start
-after-startup-command = [
-    'exec-and-forget /opt/homebrew/bin/borders',
-]
+after-startup-command = ['exec-and-forget /opt/homebrew/bin/borders']
 
 # Don't auto-tile system apps that misbehave
 [[on-window-detected]]
@@ -42,10 +42,7 @@ outer.right = 12
 # Para dejar el mismo respiro de 12px entre la barra y la ventana superior:
 # externo (sin notch, menú auto-oculto, embaldosa desde y=0) ≈ 46 + 12 = 58 → 56.
 # built-in: el notch ya reserva la franja; ~52 (VERIFICAR/AJUSTAR en el MacBook).
-outer.top = [
-    { monitor.'built-in.*' = 49 },
-    53,
-]
+outer.top = [{ monitor.'built-in.*' = 24 }, 53]
 outer.bottom = 12
 
 # === Main mode ===
