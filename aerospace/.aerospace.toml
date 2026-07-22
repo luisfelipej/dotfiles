@@ -43,8 +43,8 @@ outer.right = 12
 # externo (sin notch, menú auto-oculto, embaldosa desde y=0) ≈ 46 + 12 = 58 → 56.
 # built-in: el notch ya reserva la franja; ~52 (VERIFICAR/AJUSTAR en el MacBook).
 outer.top = [
-    { monitor.'built-in.*' = 52 },
-    56,
+    { monitor.'built-in.*' = 49 },
+    53,
 ]
 outer.bottom = 12
 
