@@ -7,7 +7,7 @@ for sid in $(seq 1 9); do
     sketchybar --add item space.$sid left \
         --set space.$sid \
         background.color=$BG_PRIMARY \
-        background.corner_radius=0 \
+        background.corner_radius=4 \
         background.height=24 \
         icon=$sid \
         icon.color=$FG_MUTED \
