@@ -41,6 +41,12 @@ for pkg in "${PACKAGES[@]}"; do
     stow --adopt -R -t ~ "$pkg"
 done
 
+# 5b. Install Homebrew packages from the Brewfile
+if [ -f "$DOTFILES_DIR/Brewfile" ]; then
+    echo "Installing Homebrew bundle..."
+    brew bundle --file="$DOTFILES_DIR/Brewfile"
+fi
+
 # 6. Install TPM if missing
 TPM_DIR="$HOME/.tmux/plugins/tpm"
 if [ ! -d "$TPM_DIR" ]; then
