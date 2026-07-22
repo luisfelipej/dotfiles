@@ -44,6 +44,7 @@ sketchybar --default \
     label.padding_right=6
 
 ##### Left #####
+source "$ITEM_DIR/apple.sh"
 source "$ITEM_DIR/spaces.sh"
 source "$ITEM_DIR/front_app.sh"
 
