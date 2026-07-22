@@ -29,9 +29,12 @@ else
         icon.color="$FG_MUTED" label.color="$FG_MUTED"
 fi
 
-# Show the app glyphs, or hide the label on an empty workspace.
+# Show the app glyphs, or hide the label on an empty workspace. When empty, make
+# the icon padding symmetric (right=left=8) so the lone number stays centered in
+# the pill; when apps are shown, tighten the right padding so the number sits
+# close to the glyph strip.
 if [ -n "$icon_strip" ]; then
-    sketchybar --set "$NAME" label="$icon_strip" label.drawing=on
+    sketchybar --set "$NAME" label="$icon_strip" label.drawing=on icon.padding_right=4
 else
-    sketchybar --set "$NAME" label.drawing=off
+    sketchybar --set "$NAME" label.drawing=off icon.padding_right=8
 fi

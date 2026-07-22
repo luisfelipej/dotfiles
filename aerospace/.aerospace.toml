@@ -31,24 +31,22 @@ run = 'layout floating'
 if.app-id = 'com.raycast.macos'
 run = 'layout floating'
 
-# Gaps between windows (Grimm-like density)
+# Gaps uniformes = 12px, para que las ventanas respiren igual que el margen
+# lateral de la barra flotante de SketchyBar (armonía visual).
 [gaps]
-inner.horizontal = 6
-inner.vertical = 6
-outer.left = 6
-outer.right = 6
-# SketchyBar flota (y_offset=10 + height=32 + border=2 ≈ borde inferior en y=44),
-# con margin lateral=12 y esquinas redondeadas. Las ventanas deben despejar ese
-# borde inferior + un respiro.
-# En pantallas externas no hay notch y el menú está auto-oculto, así que AeroSpace
-# embaldosa desde y=0: hay que dejar todo el alto de la barra flotante + gap (≈50).
-# En el built-in el notch ya reserva la franja superior, pero la barra flotante
-# baja hasta y≈44, así que igual conviene ~46 (VERIFICAR/AJUSTAR en el MacBook).
+inner.horizontal = 12
+inner.vertical = 12
+outer.left = 12
+outer.right = 12
+# SketchyBar flota con y_offset=12 + height=32 + border=2 (borde inferior ≈ y=46).
+# Para dejar el mismo respiro de 12px entre la barra y la ventana superior:
+# externo (sin notch, menú auto-oculto, embaldosa desde y=0) ≈ 46 + 12 = 58 → 56.
+# built-in: el notch ya reserva la franja; ~52 (VERIFICAR/AJUSTAR en el MacBook).
 outer.top = [
-    { monitor.'built-in.*' = 46 },
-    50,
+    { monitor.'built-in.*' = 52 },
+    56,
 ]
-outer.bottom = 6
+outer.bottom = 12
 
 # === Main mode ===
 [mode.main.binding]
