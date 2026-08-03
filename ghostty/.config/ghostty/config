@@ -28,6 +28,13 @@ window-theme = ghostty
 
 keybind = cmd+enter=toggle_fullscreen
 
+# Scratch terminal, replacing the tmux M-g popup. Global means it also works
+# from outside a terminal, which the tmux version never could.
+# Requires Ghostty in System Settings > Privacy & Security > Accessibility.
+keybind = global:alt+g=toggle_quick_terminal
+quick-terminal-position = top
+quick-terminal-size = 70%,50%
+
 gtk-tabs-location = hidden
 
 custom-shader = shaders/cursor_smear_gentleman.glsl
