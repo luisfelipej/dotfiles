@@ -1,0 +1,47 @@
+// Zellij — tmux-compatible keymap, Kanagawa Wave.
+// Only overrides live here; everything else stays on Zellij defaults.
+
+theme "kanagawa"
+
+// $SHELL resolves to zsh on this machine even though the login shell is fish,
+// so panes must be told explicitly — the same reason .tmux.conf carried a
+// default-shell line.
+default_shell "/opt/homebrew/bin/fish"
+
+// tmux-yank did this via pbcopy; Zellij needs to be told which clipboard to use.
+copy_command "pbcopy"
+
+// Both default to true and open a floating pane that steals focus on launch.
+// tmux never greeted anyone on startup; neither should this.
+show_startup_tips false
+show_release_notes false
+
+keybinds {
+    // Prefix: C-a instead of the default C-b, matching the old tmux setup.
+    shared_except "tmux" "locked" {
+        unbind "Ctrl b"
+        bind "Ctrl a" { SwitchToMode "Tmux"; }
+    }
+
+    // C-h must reach Neovim for seamless split navigation, so the default
+    // Move-mode binding is dropped. Alt+hjkl still moves focus between panes.
+    shared_except "move" "locked" {
+        unbind "Ctrl h"
+    }
+
+    tmux {
+        unbind "Ctrl b"
+
+        // send-prefix: C-a C-a writes a literal C-a (byte 1).
+        bind "Ctrl a" { Write 1; SwitchToMode "Normal"; }
+
+        // Splits keep the old tmux bindings. In tmux, -h meant side-by-side
+        // and -v meant stacked, which map to Right and Down here.
+        bind "v" { NewPane "Right"; SwitchToMode "Normal"; }
+        bind "d" { NewPane "Down"; SwitchToMode "Normal"; }
+
+        // 'd' is Detach in Zellij's default tmux mode, and the split above
+        // takes that key. Detach moves to capital D rather than disappearing.
+        bind "D" { Detach; }
+    }
+}
