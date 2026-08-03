@@ -1,6 +1,10 @@
 # herdr — agent multiplexer. Runs as its own Ghostty window, never nested
 # inside Zellij, which is why it can share the same prefix.
 
+# herdr writes this itself once onboarding is completed. It has to stay above
+# every [section] because TOML root keys cannot follow a table header.
+onboarding = false
+
 [theme]
 name = "kanagawa"
 
