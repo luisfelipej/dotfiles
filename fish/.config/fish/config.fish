@@ -18,6 +18,10 @@ if status is-interactive
     abbr --add t tmux
     abbr --add tks tmux kill-session -t
 
+    abbr --add z zellij
+    abbr --add zks zellij delete-all-sessions
+    abbr --add hd herdr
+
     abbr --add n nvim
 
 end
@@ -52,14 +56,9 @@ if test $IS_TERMUX -eq 0; and set -q BREW_BIN; and test -f $BREW_BIN
     eval ($BREW_BIN shellenv)
 end
 
-# Start tmux/zellij
-if not set -q TMUX
-    tmux
-end
-
-#if not set -q ZELLIJ
-#    zellij
-#end
+# No multiplexer starts automatically. tmux, zellij and herdr are each launched
+# explicitly via the t / z / hd abbreviations, so nothing can ever nest inside
+# anything else.
 
 # Initialize tools
 starship init fish | source
