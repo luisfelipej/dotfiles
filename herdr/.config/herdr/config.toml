@@ -25,3 +25,6 @@ prefix = "ctrl+a"
 # side-by-side, prefix+1..9 switches tabs, prefix+hjkl moves focus. Only the
 # stacked split differs — it defaults to prefix+minus.
 split_horizontal = "prefix+d"
+
+[ui]
+agent_panel_sort = "priority"
