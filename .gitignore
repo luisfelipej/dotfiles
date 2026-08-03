@@ -3,3 +3,7 @@
 *.swo
 *~
 .envrc
+
+# Agent scratch — task briefs, run reports and review diffs. Never commit.
+.superpowers/
+docs/superpowers/
