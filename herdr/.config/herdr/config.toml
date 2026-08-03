@@ -1,0 +1,23 @@
+# herdr — agent multiplexer. Runs as its own Ghostty window, never nested
+# inside Zellij, which is why it can share the same prefix.
+
+[theme]
+name = "kanagawa"
+
+[terminal]
+# The account's login shell is fish, but $SHELL does not reliably reflect that
+# depending on how herdr is launched. Point at it explicitly, the same reason
+# .tmux.conf carried a default-shell line.
+default_shell = "/opt/homebrew/bin/fish"
+
+[keys]
+# Same prefix as Zellij. The two never nest, so the focused window decides which
+# process receives the key. In the one nested case — attaching to a remote herdr
+# from inside a Zellij pane — Zellij's send-prefix (C-a C-a) writes a literal
+# C-a through to herdr.
+prefix = "ctrl+a"
+
+# herdr's defaults already match the old tmux bindings: prefix+v splits
+# side-by-side, prefix+1..9 switches tabs, prefix+hjkl moves focus. Only the
+# stacked split differs — it defaults to prefix+minus.
+split_horizontal = "prefix+d"
