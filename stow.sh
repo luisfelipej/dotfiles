@@ -36,6 +36,122 @@ stow_command() {
     stow "$@" --dir="$stow_dir" --target="$target" "${packages[@]}"
 }
 
+prepare_claude_state_directory() {
+    local package claude_target link_target linked_directory package_directory
+    local settings_target linked_settings linked_parent expected_settings
+    local git_root package_relative migration_list path relative_path
+    local source_path destination_path source_parent
+    local migration_paths
+
+    migration_paths=()
+
+    for package in "${packages[@]}"; do
+        [ "$package" = claude ] || continue
+
+        claude_target="$target/.claude"
+        package_directory="$stow_dir/claude/.claude"
+
+        if [ -L "$claude_target" ]; then
+            link_target=$(readlink "$claude_target")
+            case "$link_target" in
+                /*) linked_directory=$link_target ;;
+                *) linked_directory="$target/$link_target" ;;
+            esac
+
+            if [ -d "$linked_directory" ] && \
+                [ "$(cd "$linked_directory" && pwd -P)" = "$(cd "$package_directory" && pwd -P)" ]; then
+                if ! git_root=$(git -C "$stow_dir" rev-parse --show-toplevel 2>/dev/null); then
+                    printf 'Cannot migrate folded Claude state without a Git worktree.\n' >&2
+                    return 1
+                fi
+                if [ "$(cd "$git_root" && pwd -P)" != "$(cd "$stow_dir" && pwd -P)" ]; then
+                    printf 'Cannot safely classify folded Claude state outside the Git root.\n' >&2
+                    return 1
+                fi
+
+                package_relative=claude/.claude
+                migration_list=$(mktemp "${TMPDIR:-/tmp}/dotfiles-claude-state.XXXXXX")
+                if ! git -C "$stow_dir" ls-files -z --others --exclude-standard \
+                    -- "$package_relative" > "$migration_list"; then
+                    rm -f "$migration_list"
+                    printf 'Cannot classify untracked Claude state.\n' >&2
+                    return 1
+                fi
+                if ! git -C "$stow_dir" ls-files -z --others --ignored \
+                    --exclude-standard -- "$package_relative" >> "$migration_list"; then
+                    rm -f "$migration_list"
+                    printf 'Cannot classify ignored Claude state.\n' >&2
+                    return 1
+                fi
+
+                while IFS= read -r -d '' path; do
+                    case "$path" in
+                        "$package_relative"/*) ;;
+                        *)
+                            rm -f "$migration_list"
+                            printf 'Unsafe Claude state path reported by Git: %s\n' "$path" >&2
+                            return 1
+                            ;;
+                    esac
+                    source_path="$stow_dir/$path"
+                    if { [ ! -e "$source_path" ] && [ ! -L "$source_path" ]; } || \
+                        { [ -d "$source_path" ] && [ ! -L "$source_path" ]; }; then
+                        rm -f "$migration_list"
+                        printf 'Cannot safely migrate Claude state path: %s\n' "$path" >&2
+                        return 1
+                    fi
+                    migration_paths+=("$path")
+                done < "$migration_list"
+                rm -f "$migration_list"
+
+                rm "$claude_target"
+                mkdir "$claude_target"
+
+                for path in "${migration_paths[@]}"; do
+                    relative_path=${path#"$package_relative"/}
+                    source_path="$stow_dir/$path"
+                    destination_path="$claude_target/$relative_path"
+                    mkdir -p "$(dirname "$destination_path")"
+                    mv "$source_path" "$destination_path"
+
+                    source_parent=$(dirname "$source_path")
+                    while [ "$source_parent" != "$package_directory" ]; do
+                        rmdir "$source_parent" 2>/dev/null || break
+                        source_parent=$(dirname "$source_parent")
+                    done
+                done
+            fi
+        elif [ ! -e "$claude_target" ] && [ "$mode" != unstow ]; then
+            mkdir "$claude_target"
+        fi
+
+        if [ -d "$claude_target" ] && [ ! -L "$claude_target" ]; then
+            settings_target="$claude_target/settings.json"
+            if [ -L "$settings_target" ] && [ ! -e "$settings_target" ]; then
+                link_target=$(readlink "$settings_target")
+                case "$link_target" in
+                    /*) linked_settings=$link_target ;;
+                    *) linked_settings="$claude_target/$link_target" ;;
+                esac
+                linked_parent=$(dirname "$linked_settings")
+
+                if [ -d "$linked_parent" ]; then
+                    linked_settings="$(cd "$linked_parent" && pwd -P)/$(basename "$linked_settings")"
+                    expected_settings="$(cd "$package_directory" && pwd -P)/settings.json"
+                    if [ "$linked_settings" = "$expected_settings" ]; then
+                        rm "$settings_target"
+                        if [ "$mode" != unstow ]; then
+                            cp "$package_directory/settings.example.json" "$settings_target"
+                        fi
+                    fi
+                fi
+            fi
+        fi
+
+        return
+    done
+}
+
 if [ "$mode" != adopt ]; then
     printf 'Preflighting %s for all packages...\n' "$mode"
     if ! stow_command --simulate ${operation[@]+"${operation[@]}"}; then
@@ -46,6 +162,8 @@ if [ "$mode" != adopt ]; then
         printf 'Preflight passed; no changes were made.\n'
         exit
     fi
+
+    prepare_claude_state_directory
 
     printf 'Applying %s for all packages...\n' "$mode"
     stow_command ${operation[@]+"${operation[@]}"}
@@ -142,6 +260,7 @@ else
 fi
 printf 'Recovery backup created at %s\n' "$backup"
 
+prepare_claude_state_directory
 if ! stow_command ${operation[@]+"${operation[@]}"}; then
     printf 'Adoption failed. The recovery backup remains at %s\n' "$backup" >&2
     exit 1
