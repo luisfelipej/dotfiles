@@ -21,9 +21,10 @@ deadline=1787500000
 remaining=0
 ```
 
-`deadline` is an epoch timestamp for a running session. A paused session sets
-`deadline=0` and stores its seconds in `remaining`. Invalid or corrupt data is
-treated as idle. Clock output is validated before arithmetic.
+`deadline` is an epoch timestamp for a running session. The parser still accepts
+previously persisted `paused` records, but the plugin no longer creates them;
+the next primary click resets them to idle. Invalid or corrupt data is treated
+as idle. Clock output is validated before arithmetic.
 
 Invocations are serialized by the native macOS `/usr/bin/shlock` utility using
 the private `${XDG_STATE_HOME:-$HOME/.local/state}/sketchybar/.pomodoro.lock`
@@ -41,8 +42,8 @@ published only after the atomic state write succeeds. The lock is released
 after rendering and before invoking `osascript`, so a slow notification cannot
 block later updates.
 
-Right-click resets the timer. Any other mouse button toggles start and pause,
-matching the original plugin behavior.
+Right-click resets the timer. Any other mouse button is the primary action: it
+starts a work timer from idle and resets running or legacy paused state.
 
 Run the focused test suite with:
 

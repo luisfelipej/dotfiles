@@ -667,22 +667,38 @@ test_restart_and_expiry() {
     [ "$failed" -eq 0 ] && pass 'restart preserves active deadlines and expiry reaches the correct state'
 }
 
-test_pause_resume_uses_explicit_remaining_time() {
-    new_case pause_resume
+test_primary_action_starts_or_resets() {
+    new_case primary_starts_idle
     failed=0
 
+    run_plugin mouse.clicked left 1000 || failed=1
+    assert_file_contains "$STATE_FILE" 'state=running' 'primary click starts an idle session' || failed=1
+    assert_file_contains "$STATE_FILE" 'deadline=2500' 'started session persists its work deadline' || failed=1
+
+    new_case primary_resets_running
     write_state running work 1120 0
     run_plugin mouse.clicked left 1000 || failed=1
-    assert_file_contains "$STATE_FILE" 'state=paused' 'click pauses a running session' || failed=1
-    assert_file_contains "$STATE_FILE" 'deadline=0' 'paused state clears its deadline' || failed=1
-    assert_file_contains "$STATE_FILE" 'remaining=120' 'paused state stores remaining seconds' || failed=1
+    assert_file_contains "$STATE_FILE" 'state=idle' 'primary click resets a running session' || failed=1
+    assert_file_contains "$STATE_FILE" 'mode=work' 'running reset restores work mode' || failed=1
+    assert_file_contains "$STATE_FILE" 'deadline=0' 'running reset clears its deadline' || failed=1
+    assert_file_contains "$STATE_FILE" 'remaining=0' 'running reset clears remaining seconds' || failed=1
+    assert_file_contains "$SKETCHYBAR_LOG" 'label=off' 'running reset renders idle after persistence' || failed=1
 
-    run_plugin mouse.clicked left 1060 || failed=1
-    assert_file_contains "$STATE_FILE" 'state=running' 'click resumes a paused session' || failed=1
-    assert_file_contains "$STATE_FILE" 'deadline=1180' 'resumed state creates a new epoch deadline' || failed=1
-    assert_file_contains "$STATE_FILE" 'remaining=0' 'resumed state clears remaining seconds' || failed=1
+    new_case primary_resets_legacy_paused
+    write_state paused break 0 75
+    run_plugin mouse.clicked middle 1000 || failed=1
+    assert_file_contains "$STATE_FILE" 'state=idle' 'primary click resets a legacy paused session' || failed=1
+    assert_file_contains "$STATE_FILE" 'mode=work' 'legacy paused reset restores work mode' || failed=1
+    assert_file_contains "$STATE_FILE" 'remaining=0' 'legacy paused reset clears remaining seconds' || failed=1
 
-    [ "$failed" -eq 0 ] && pass 'pause and resume preserve explicit remaining time'
+    new_case primary_reset_save_failure
+    write_state running work 1120 0
+    original_checksum=$(/usr/bin/cksum < "$STATE_FILE")
+    FAIL_SAVE_STAGE=mv run_plugin mouse.clicked left 1000 || true
+    assert_eq "$original_checksum" "$(/usr/bin/cksum < "$STATE_FILE")" 'failed primary reset preserves running state' || failed=1
+    assert_eq 0 "$(wc -l < "$SKETCHYBAR_LOG" | tr -d ' ')" 'failed primary reset does not publish idle UI' || failed=1
+
+    [ "$failed" -eq 0 ] && pass 'primary action starts idle and resets active or legacy paused state'
 }
 
 test_invalid_inputs_and_click_semantics() {
@@ -722,7 +738,7 @@ test_notification_does_not_hold_locks
 test_concurrent_expiry_stress
 test_corrupt_state_is_inert_and_idle
 test_restart_and_expiry
-test_pause_resume_uses_explicit_remaining_time
+test_primary_action_starts_or_resets
 test_invalid_inputs_and_click_semantics
 
 printf '%s passed, %s failed\n' "$PASS_COUNT" "$FAIL_COUNT"

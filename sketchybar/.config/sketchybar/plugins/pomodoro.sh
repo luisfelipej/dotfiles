@@ -328,9 +328,7 @@ update_display() {
     render_timer "$display_seconds"
 }
 
-start_pause() {
-    local display_seconds
-
+start_or_reset() {
     get_state
     if [[ "$STATE_PATH_INVALID" == 1 ]]; then
         render_idle
@@ -353,38 +351,9 @@ start_pause() {
         if save_state; then
             render_timer "$WORK_DURATION"
         fi
-    elif [[ "$STATE" == "running" ]]; then
-        read_now || {
-            render_idle
-            return
-        }
-        display_seconds=$((DEADLINE - NOW))
-        if [[ $display_seconds -le 0 ]]; then
-            transition_expired "$NOW"
-            return
-        fi
-        REMAINING=$display_seconds
-        STATE="paused"
-        DEADLINE=0
-        if save_state; then
-            render_timer "$REMAINING"
-        fi
-    elif [[ "$STATE" == "paused" ]]; then
-        read_now || {
-            render_idle
-            return
-        }
-        [[ "$NOW" -le $((MAX_TIME - REMAINING)) ]] || {
-            render_idle
-            return
-        }
-        STATE="running"
-        DEADLINE=$((NOW + REMAINING))
-        display_seconds=$REMAINING
-        REMAINING=0
-        if save_state; then
-            render_timer "$display_seconds"
-        fi
+    else
+        set_idle
+        save_state && render_idle
     fi
 }
 
@@ -412,7 +381,7 @@ case "$SENDER" in
     if [[ "$BUTTON" == "right" ]]; then
         reset
     else
-        start_pause
+        start_or_reset
     fi
     ;;
 *)
