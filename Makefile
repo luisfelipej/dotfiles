@@ -1,30 +1,20 @@
 PACKAGES = sketchybar nvim fish ghostty tmux claude git starship mise lf aerospace borders lazygit
+MAKEFILE_DIR := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
+STOW_SCRIPT := $(MAKEFILE_DIR)stow.sh
 
 .PHONY: stow unstow restow adopt status
 
 stow:
-	@for pkg in $(PACKAGES); do \
-		echo "Stowing $$pkg..."; \
-		stow -t ~ $$pkg; \
-	done
+	@bash "$(STOW_SCRIPT)" stow $(PACKAGES)
 
 unstow:
-	@for pkg in $(PACKAGES); do \
-		echo "Unstowing $$pkg..."; \
-		stow -D -t ~ $$pkg; \
-	done
+	@bash "$(STOW_SCRIPT)" unstow $(PACKAGES)
 
 restow:
-	@for pkg in $(PACKAGES); do \
-		echo "Restowing $$pkg..."; \
-		stow --adopt -R -t ~ $$pkg; \
-	done
+	@bash "$(STOW_SCRIPT)" restow $(PACKAGES)
 
 adopt:
-	@for pkg in $(PACKAGES); do \
-		echo "Adopting $$pkg..."; \
-		stow --adopt -t ~ $$pkg; \
-	done
+	@bash "$(STOW_SCRIPT)" adopt $(PACKAGES)
 
 status:
 	@echo "Symlink status:"
