@@ -55,10 +55,11 @@ if [ ! -d "$TPM_DIR" ]; then
     echo "Run 'prefix + I' in tmux to install plugins"
 fi
 
-# 9. Install Fisher if missing
-if ! fish -c "type -q fisher" 2>/dev/null; then
+# 9. Install Fisher if missing without loading interactive shell configuration
+FISH_CONFIG_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/fish"
+if [ ! -f "$FISH_CONFIG_DIR/functions/fisher.fish" ]; then
     echo "Installing Fisher..."
-    fish -c "curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher"
+    fish --no-config -c "curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher"
     echo "Run 'fisher update' in fish to install plugins"
 fi
 
