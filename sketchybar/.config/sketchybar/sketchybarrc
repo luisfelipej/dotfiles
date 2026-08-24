@@ -48,9 +48,6 @@ source "$ITEM_DIR/apple.sh"
 source "$ITEM_DIR/spaces.sh"
 source "$ITEM_DIR/front_app.sh"
 
-##### Center #####
-source "$ITEM_DIR/claude_agents.sh"
-
 ##### Right (add-order is rightmost-first → reverse of visual order) #####
 source "$ITEM_DIR/clock.sh"
 [[ $IS_LAPTOP -eq 1 ]] && source "$ITEM_DIR/battery.sh"
