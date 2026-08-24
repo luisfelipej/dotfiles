@@ -1,27 +1,3 @@
-if status is-interactive
-    # Configurar Homebrew (para que encuentre tus comandos)
-    eval (/opt/homebrew/bin/brew shellenv)
-
-    # Iniciar Starship
-    starship init fish | source
-
-    if not functions -q fisher
-        curl -sL https://git.io/fisher | source
-        fisher install jorgebucaran/fisher
-    end
-
-    abbr --add k kubectl
-    abbr --add kcc kubectl config use-context
-    abbr --add kcc-keiron-dev kubectl config use-context arn:aws:eks:us-east-1:872535834453:cluster/DevEKSA50EF4AB-65ba17bfbc944963882af83ef572e3cf
-    abbr --add kcc-keiron-prod kubectl config use-context arn:aws:eks:us-east-1:872535834453:cluster/ProdEKSED1809F8-ea6f31fc83a6469294175c9bcc990939
-
-    abbr --add t tmux
-    abbr --add tks tmux kill-session -t
-
-    abbr --add n nvim
-
-end
-
 # Detect Termux
 set -l IS_TERMUX 0
 if test -n "$TERMUX_VERSION"; or test -d /data/data/com.termux
@@ -30,68 +6,69 @@ end
 
 if test $IS_TERMUX -eq 1
     # Termux - use PREFIX for binaries
-    set -x PATH $PREFIX/bin $HOME/.local/bin $HOME/.cargo/bin $PATH
+    fish_add_path --global --move $PREFIX/bin $HOME/.local/bin $HOME/.cargo/bin
 else if test (uname) = Darwin
-    # macOS - check for Apple Silicon vs Intel
-    if test -f /opt/homebrew/bin/brew
-        # Apple Silicon (M1/M2/M3)
+    # Check both Homebrew locations because GUI terminals may have a minimal PATH.
+    if type -q brew
+        set BREW_BIN (command -s brew)
+    else if test -x /opt/homebrew/bin/brew
         set BREW_BIN /opt/homebrew/bin/brew
-    else if test -f /usr/local/bin/brew
-        # Intel Mac
+    else if test -x /usr/local/bin/brew
         set BREW_BIN /usr/local/bin/brew
     end
-    set -x PATH $HOME/.local/bin $HOME/.opencode/bin $HOME/.volta/bin $HOME/.bun/bin $HOME/.nix-profile/bin /nix/var/nix/profiles/default/bin /usr/local/bin $HOME/.config $HOME/.cargo/bin /usr/local/lib/* $PATH
+    fish_add_path --global --move $HOME/.local/bin $HOME/.opencode/bin $HOME/.volta/bin $HOME/.bun/bin $HOME/.nix-profile/bin /nix/var/nix/profiles/default/bin /usr/local/bin $HOME/.cargo/bin
 else
     # Linux
-    set BREW_BIN /home/linuxbrew/.linuxbrew/bin/brew
-    set -x PATH $HOME/.local/bin $HOME/.opencode/bin $HOME/.volta/bin $HOME/.bun/bin $HOME/.nix-profile/bin /nix/var/nix/profiles/default/bin /usr/local/bin $HOME/.config $HOME/.cargo/bin /usr/local/lib/* $PATH
+    if type -q brew
+        set BREW_BIN (command -s brew)
+    else if test -x /home/linuxbrew/.linuxbrew/bin/brew
+        set BREW_BIN /home/linuxbrew/.linuxbrew/bin/brew
+    end
+    fish_add_path --global --move $HOME/.local/bin $HOME/.opencode/bin $HOME/.volta/bin $HOME/.bun/bin $HOME/.nix-profile/bin /nix/var/nix/profiles/default/bin /usr/local/bin $HOME/.cargo/bin
 end
 
-# Only eval brew shellenv if brew is installed (not on Termux)
-if test $IS_TERMUX -eq 0; and set -q BREW_BIN; and test -f $BREW_BIN
+# Load Homebrew's environment once when it is installed.
+if test $IS_TERMUX -eq 0; and set -q BREW_BIN
     eval ($BREW_BIN shellenv)
 end
 
-# Start tmux/zellij
-if not set -q TMUX
-    tmux
-end
+set -gx CARAPACE_BRIDGES 'zsh,fish,bash,inshellisense'
 
-#if not set -q ZELLIJ
-#    zellij
-#end
+if status is-interactive
+    fish_vi_key_bindings
 
-# Initialize tools
-starship init fish | source
-zoxide init fish | source
-atuin init fish | source
-fzf --fish | source
+    abbr --add k kubectl
+    abbr --add kcc kubectl config use-context
+    abbr --add kcc-keiron-dev kubectl config use-context arn:aws:eks:us-east-1:872535834453:cluster/DevEKSA50EF4AB-65ba17bfbc944963882af83ef572e3cf
+    abbr --add kcc-keiron-prod kubectl config use-context arn:aws:eks:us-east-1:872535834453:cluster/ProdEKSED1809F8-ea6f31fc83a6469294175c9bcc990939
+    abbr --add t tmux
+    abbr --add tks tmux kill-session -t
+    abbr --add n nvim
 
-set -x PATH $HOME/.cargo/bin $PATH
-
-# Carapace completions
-set -Ux CARAPACE_BRIDGES 'zsh,fish,bash,inshellisense'
-
-if not test -d ~/.config/fish/completions
-    mkdir -p ~/.config/fish/completions
-end
-
-if not test -f ~/.config/fish/completions/.initialized
-    if not test -d ~/.config/fish/completions
-        mkdir -p ~/.config/fish/completions
+    if type -q starship
+        starship init fish | source
     end
-    carapace --list | awk '{print $1}' | xargs -I{} touch ~/.config/fish/completions/{}.fish
-    touch ~/.config/fish/completions/.initialized
+    if type -q zoxide
+        zoxide init fish | source
+    end
+    if type -q atuin
+        atuin init fish | source
+    end
+    if type -q fzf
+        fzf --fish | source
+    end
+    if type -q carapace
+        carapace _carapace fish | source
+    end
 end
 
-carapace _carapace | source
+if type -q mise
+    mise activate fish | source
+end
 
 set -g fish_greeting ""
 
-# Enable vi mode
-fish_vi_key_bindings
-
-# Set nvim as default editor for opencode and other tools
+# Set nvim as the default editor for OpenCode and other tools.
 set -gx EDITOR nvim
 set -gx VISUAL nvim
 
@@ -137,5 +114,3 @@ set -g fish_pager_color_progress $comment
 set -g fish_pager_color_prefix $cyan
 set -g fish_pager_color_completion $foreground
 set -g fish_pager_color_description $comment
-clear
-~/.local/bin/mise activate fish | source
