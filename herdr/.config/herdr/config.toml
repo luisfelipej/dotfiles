@@ -1,0 +1,46 @@
+# herdr — agent multiplexer. Runs as its own Ghostty window, never nested
+# inside tmux, which is why it can share the same prefix.
+
+# herdr writes this itself once onboarding is completed. It has to stay above
+# every [section] because TOML root keys cannot follow a table header.
+onboarding = false
+
+[theme]
+name = "kanagawa"
+
+[theme.custom]
+# Kanagawa Wave tokens on top of the built-in theme, so herdr's chrome matches
+# nvim and the tmux status bar instead of whatever the base theme picks.
+sidebar_bg = "#16161d"    # sumiInk0, the darker sidebar/float background
+active_row_bg = "#2a2a37" # sumiInk4
+selection_bg = "#223249"  # waveBlue1, Kanagawa's Visual selection
+accent = "#7e9cd8"        # crystalBlue, same accent as tmux
+
+[terminal]
+# The account's login shell is fish, but $SHELL does not reliably reflect that
+# depending on how herdr is launched. Point at it explicitly, the same reason
+# .tmux.conf carries a default-shell line.
+default_shell = "/opt/homebrew/bin/fish"
+
+[keys]
+# Same prefix as tmux. The two never nest, so the focused window decides which
+# process receives the key. In the one nested case — attaching to a remote herdr
+# from inside a tmux pane — tmux's send-prefix (C-a C-a) writes a literal C-a
+# through to herdr.
+prefix = "ctrl+a"
+
+# herdr's defaults already match the tmux bindings: prefix+v splits
+# side-by-side, prefix+1..9 switches tabs, prefix+hjkl moves focus. Only the
+# stacked split differs — it defaults to prefix+minus.
+split_horizontal = "prefix+d"
+
+# Jump between agents without going through the sidebar (from Gentleman.Dots).
+# Ctrl rather than Alt after the prefix: AeroSpace grabs alt-hjkl and alt-1..9
+# globally, so those keys never reach herdr. prefix+shift+j/k stay pane swaps.
+previous_agent = "prefix+ctrl+k"
+next_agent = "prefix+ctrl+j"
+focus_agent = "prefix+ctrl+1..9"
+
+[ui]
+agent_panel_sort = "priority"
+accent = "#7e9cd8"
