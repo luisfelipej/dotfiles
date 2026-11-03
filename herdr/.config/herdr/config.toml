@@ -6,15 +6,26 @@
 onboarding = false
 
 [theme]
+# Ghostty reports macOS light/dark changes to the apps inside it (DEC mode
+# 2031), and auto_switch makes herdr swap its own chrome on the spot.
+auto_switch = true
 name = "kanagawa"
+dark_name = "kanagawa"
+light_name = "one-light"
 
-[theme.custom]
-# Kanagawa Wave tokens on top of the built-in theme, so herdr's chrome matches
-# nvim and the tmux status bar instead of whatever the base theme picks.
+[theme.custom.dark]
+# Kanagawa Wave tokens, so herdr's chrome matches nvim and Ghostty.
 sidebar_bg = "#16161d"    # sumiInk0, the darker sidebar/float background
 active_row_bg = "#2a2a37" # sumiInk4
 selection_bg = "#223249"  # waveBlue1, Kanagawa's Visual selection
-accent = "#7e9cd8"        # crystalBlue, same accent as tmux
+accent = "#7e9cd8"        # crystalBlue
+
+[theme.custom.light]
+# Zenwritten Light tokens on top of one-light, the closest neutral base.
+sidebar_bg = "#e5e5e5"    # a step darker than the #eeeeee terminal background
+active_row_bg = "#d9d9d9"
+selection_bg = "#d7d7d7"  # Zenwritten's own selection background
+accent = "#286486"        # Zenwritten blue
 
 [terminal]
 # The account's login shell is fish, but $SHELL does not reliably reflect that
@@ -43,4 +54,3 @@ focus_agent = "prefix+ctrl+1..9"
 
 [ui]
 agent_panel_sort = "priority"
-accent = "#7e9cd8"
