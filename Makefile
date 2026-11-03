@@ -1,4 +1,4 @@
-PACKAGES = sketchybar nvim fish ghostty tmux claude git starship mise lf aerospace borders lazygit
+PACKAGES = sketchybar nvim fish ghostty tmux claude git starship mise lf aerospace borders lazygit herdr
 MAKEFILE_DIR := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 STOW_SCRIPT := $(MAKEFILE_DIR)stow.sh
 
