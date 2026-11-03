@@ -1,4 +1,4 @@
-theme = Kanagawa Wave
+theme = light:zenwritten-light-tuned,dark:Kanagawa Wave
 
 font-family = "JetBrainsMono Nerd Font"
 font-style = "Medium"

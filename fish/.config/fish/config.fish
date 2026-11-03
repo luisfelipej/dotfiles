@@ -79,19 +79,20 @@ else
     alias ls='gls --color=auto'
 end
 
-alias fzfbat='fzf --preview="bat --theme=gruvbox-dark --color=always {}"'
-alias fzfnvim='nvim (fzf --preview="bat --theme=gruvbox-dark --color=always {}")'
+alias fzfbat='fzf --preview="bat --theme=ansi --color=always {}"'
+alias fzfnvim='nvim (fzf --preview="bat --theme=ansi --color=always {}")'
 
-set -l foreground F3F6F9 normal
-set -l selection 263356 normal
-set -l comment 8394A3 brblack
-set -l red CB7C94 red
-set -l orange DEBA87 orange
-set -l yellow FFE066 yellow
-set -l green B7CC85 green
-set -l purple A3B5D6 purple
-set -l cyan 7AA89F cyan
-set -l pink FF8DD7 magenta
+# ANSI names, not hex: fish then takes its colors from the Ghostty palette,
+# so every open shell recolors the moment macOS switches light/dark.
+set -l foreground normal
+set -l comment brblack
+set -l red red
+set -l orange bryellow
+set -l yellow yellow
+set -l green brgreen
+set -l purple blue
+set -l cyan brcyan
+set -l pink magenta
 
 # Syntax Highlighting Colors
 set -g fish_color_normal $foreground
@@ -103,8 +104,8 @@ set -g fish_color_end $orange
 set -g fish_color_error $red
 set -g fish_color_param $purple
 set -g fish_color_comment $comment
-set -g fish_color_selection --background=$selection
-set -g fish_color_search_match --background=$selection
+set -g fish_color_selection --reverse
+set -g fish_color_search_match --reverse
 set -g fish_color_operator $green
 set -g fish_color_escape $pink
 set -g fish_color_autosuggestion $comment

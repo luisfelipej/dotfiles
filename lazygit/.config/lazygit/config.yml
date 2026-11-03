@@ -1,5 +1,8 @@
 gui:
-  theme:
+  # lazygit picks lightTheme or darkTheme from the terminal background, so it
+  # follows the macOS appearance along with Ghostty.
+  colorScheme: auto
+  darkTheme: # Kanagawa Wave
     activeBorderColor:
       - "#7e9cd8"
       - bold
@@ -24,6 +27,33 @@ gui:
       - "#e46876"
     defaultFgColor:
       - "#dcd7ba"
-  authorColors:
-    "*": "#d27e99"
+    authorColors:
+      "*": "#d27e99"
+  lightTheme: # Zenwritten Light
+    activeBorderColor:
+      - "#286486"
+      - bold
+    inactiveBorderColor:
+      - "#aca9a9"
+    searchingActiveBorderColor:
+      - "#944927"
+      - bold
+    optionsTextColor:
+      - "#286486"
+    selectedLineBgColor:
+      - "#d7d7d7"
+    cherryPickedCommitBgColor:
+      - "#e2e2e2"
+    cherryPickedCommitFgColor:
+      - "#803d1c"
+    markedBaseCommitBgColor:
+      - "#e2e2e2"
+    markedBaseCommitFgColor:
+      - "#a8334c"
+    unstagedChangesColor:
+      - "#a8334c"
+    defaultFgColor:
+      - "#353535"
+    authorColors:
+      "*": "#88507d"
   nerdFontsVersion: "3"
