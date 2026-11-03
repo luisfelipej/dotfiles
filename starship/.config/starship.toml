@@ -20,26 +20,26 @@ $character"""
 symbol = " "
 
 [directory]
-style = "bold #7e9cd8"
+style = "bold blue"
 read_only = " "
 truncation_length = 4
 truncate_to_repo = false
 
 [character]
-success_symbol = "[󰜴](bold #e6c384)"
-error_symbol = "[󰜴](bold #e46876)"
-vicmd_symbol = "[󰜴](bold #98bb6c)"
+success_symbol = "[󰜴](bold bright-yellow)"
+error_symbol = "[󰜴](bold red)"
+vicmd_symbol = "[󰜴](bold bright-green)"
 
 [git_branch]
 symbol = " "
 format = 'on [$symbol$branch(:$remote_branch)]($style) '
-style = "bold #d27e99"
+style = "bold purple"
 truncation_length = 20
 truncation_symbol = "..."
 
 [git_status]
 format = '([\[$all_status$ahead_behind\]]($style) )'
-style = "#7aa89f"
+style = "bright-cyan"
 conflicted = "🏳"
 ahead = "🏎💨"
 behind = "😰"
@@ -48,53 +48,53 @@ up_to_date = "✓"
 
 [git_metrics]
 disabled = false
-added_style = "bold #98bb6c"
-deleted_style = "bold #e46876"
+added_style = "bold bright-green"
+deleted_style = "bold red"
 
 [golang]
 symbol = " "
-style = "bold #7e9cd8"
+style = "bold blue"
 format = "[$symbol($version) ]($style)"
 
 [nodejs]
 symbol = "⬢ "
-style = "bold #98bb6c"
+style = "bold bright-green"
 format = "[$symbol($version) ]($style)"
 
 [docker_context]
 symbol = " "
-style = "#7e9cd8 dimmed"
+style = "blue dimmed"
 
 [kubernetes]
 symbol = "⎈ "
 disabled = false
-style = "#7aa89f"
+style = "bright-cyan"
 format = 'on [$symbol$context( \($namespace\))]($style) '
 
 [[kubernetes.contexts]]
 context_pattern = ".*ProdEKS.*"
 context_alias = "prod"
-style = "bold #e46876"
+style = "bold red"
 
 [[kubernetes.contexts]]
 context_pattern = ".*DevEKS.*"
 context_alias = "dev"
-style = "bold #98bb6c"
+style = "bold bright-green"
 
 [cmd_duration]
 min_time = 2_000
-style = "bold #e6c384"
+style = "bold bright-yellow"
 format = "took [$duration]($style) "
 
 [time]
 disabled = false
-style = "bold #e6c384"
+style = "bold bright-yellow"
 format = "[$time]($style)"
 time_format = "%H:%M"
 
 [jobs]
 symbol = ""
-style = "bold #e46876"
+style = "bold red"
 number_threshold = 1
 format = "[$symbol]($style)"
 
