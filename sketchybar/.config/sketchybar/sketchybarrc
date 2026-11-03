@@ -60,6 +60,9 @@ source "$ITEM_DIR/cpu.sh"
 source "$ITEM_DIR/homebrew.sh"
 source "$ITEM_DIR/pomodoro.sh"
 
+##### Hidden #####
+source "$ITEM_DIR/appearance.sh"
+
 ##### Finalize #####
 sketchybar --update
 sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$(aerospace list-workspaces --focused 2>/dev/null)

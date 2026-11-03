@@ -249,7 +249,7 @@ read_now() {
 }
 
 render_idle() {
-    sketchybar --set $NAME icon=󰔟 label="off" background.color=$COLOR_IDLE icon.color=$FG
+    sketchybar --set $NAME icon=󰔟 label="off" background.color=$COLOR_IDLE icon.color=$FG label.color=$FG
 }
 
 render_timer() {
@@ -261,9 +261,9 @@ render_timer() {
     display=$(printf "%02d:%02d" $minutes $seconds)
 
     if [[ "$MODE" == "work" ]]; then
-        sketchybar --set $NAME icon=󰔟 label="$display" background.color=$COLOR_WORK icon.color=$BAR_COLOR
+        sketchybar --set $NAME icon=󰔟 label="$display" background.color=$COLOR_WORK icon.color=$BAR_COLOR label.color=$BAR_COLOR
     else
-        sketchybar --set $NAME icon=󰾩 label="$display" background.color=$COLOR_BREAK icon.color=$BAR_COLOR
+        sketchybar --set $NAME icon=󰾩 label="$display" background.color=$COLOR_BREAK icon.color=$BAR_COLOR label.color=$BAR_COLOR
     fi
 }
 
@@ -282,7 +282,7 @@ transition_expired() {
         if ! save_state; then
             return 1
         fi
-        sketchybar --set $NAME icon=󰾩 label="break!" background.color=$COLOR_DONE icon.color=$BAR_COLOR
+        sketchybar --set $NAME icon=󰾩 label="break!" background.color=$COLOR_DONE icon.color=$BAR_COLOR label.color=$BAR_COLOR
         release_lock
         osascript -e 'display notification "Time for a break!" with title "Pomodoro"'
         return

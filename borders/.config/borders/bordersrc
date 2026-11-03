@@ -1,11 +1,21 @@
 #!/usr/bin/env bash
-# JankyBorders — Kanagawa Wave accents
+# JankyBorders — colors follow the macOS appearance. sketchybar's appearance
+# event runs this again on a light/dark switch, which updates the running
+# instance instead of starting a second one.
 # Docs: https://github.com/FelixKratz/JankyBorders
+
+if [ "$(defaults read -g AppleInterfaceStyle 2>/dev/null)" = "Dark" ]; then
+  active=0xff7e9cd8   # Kanagawa Wave crystalBlue
+  inactive=0xff54546d # Kanagawa Wave sumiInk6
+else
+  active=0xff286486   # Zenwritten Light blue
+  inactive=0xffc4c4c4
+fi
 
 borders \
   style=round \
   width=2.0 \
   hidpi=on \
-  active_color=0xff7e9cd8 \
-  inactive_color=0xff54546d \
+  active_color=$active \
+  inactive_color=$inactive \
   background_color=0x00000000 &

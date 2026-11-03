@@ -1,25 +1,51 @@
 #!/usr/bin/env zsh
-# Kanagawa Wave palette — sketchybar uses 0xAARRGGBB
+# Light and dark palettes — sketchybar uses 0xAARRGGBB
 
-export BAR_COLOR=0xff1f1f28
-export BAR_BORDER_COLOR=0xff363646
+# Picked from the macOS appearance every time sketchybar loads. The
+# appearance_changed event (items/appearance.sh) reloads the bar on a switch.
+if [ "$(defaults read -g AppleInterfaceStyle 2>/dev/null)" = "Dark" ]; then
+  # Kanagawa Wave
+  export BAR_COLOR=0xff1f1f28
+  export BAR_BORDER_COLOR=0xff363646
 
-export BG_PRIMARY=0xff2a2a37
-export BG_SECONDARY=0xff363646
-export BG_OVERLAY=0xff54546d
-export BG_TRANSPARENT=0x00000000
+  export BG_PRIMARY=0xff2a2a37
+  export BG_SECONDARY=0xff363646
+  export BG_OVERLAY=0xff54546d
+  export BG_TRANSPARENT=0x00000000
 
-export FG=0xffdcd7ba
-export FG_MUTED=0xff727169
-export FG_DIM=0x66727169
+  export FG=0xffdcd7ba
+  export FG_MUTED=0xff727169
+  export FG_DIM=0x66727169
 
-export RED=0xffe46876
-export ORANGE=0xffffa066
-export YELLOW=0xffe6c384
-export GREEN=0xff98bb6c
-export AQUA=0xff7aa89f
-export BLUE=0xff7e9cd8
-export PURPLE=0xff957fb8
+  export RED=0xffe46876
+  export ORANGE=0xffffa066
+  export YELLOW=0xffe6c384
+  export GREEN=0xff98bb6c
+  export AQUA=0xff7aa89f
+  export BLUE=0xff7e9cd8
+  export PURPLE=0xff957fb8
+else
+  # Zenwritten Light
+  export BAR_COLOR=0xffeeeeee
+  export BAR_BORDER_COLOR=0xffd9d9d9
+
+  export BG_PRIMARY=0xffe2e2e2
+  export BG_SECONDARY=0xffd7d7d7
+  export BG_OVERLAY=0xffc4c4c4
+  export BG_TRANSPARENT=0x00000000
+
+  export FG=0xff353535
+  export FG_MUTED=0xff6b6b6b
+  export FG_DIM=0x666b6b6b
+
+  export RED=0xffa8334c
+  export ORANGE=0xffb4582a
+  export YELLOW=0xff944927
+  export GREEN=0xff4f6c31
+  export AQUA=0xff2b747c
+  export BLUE=0xff286486
+  export PURPLE=0xff88507d
+fi
 
 # Semantic aliases
 export ACCENT=$BLUE
@@ -38,7 +64,7 @@ export POMODORO_FG=$FG
 # Font for ported plugins
 export FONT="JetBrainsMono Nerd Font"
 
-# New-widget semantic roles (reuse Kanagawa base colors)
+# New-widget semantic roles (reuse the base palette)
 export WIFI_OK=$GREEN
 export WIFI_OFF=$RED
 export BRIGHTNESS_FG=$YELLOW
